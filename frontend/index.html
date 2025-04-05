@@ -29,8 +29,8 @@
             <div class="mobile-menu-links">
                 <a href="#Home">Home</a>
                 <a href="#Aboutus">About us</a>
-                <a href="#Events">Events</a>
-                <a href="#Leaders">Leaders</a>
+                <a href="#Recommendations">Recommendations</a>
+                <a href="#Lend Crypto">Lend Crypto</a>
                 <a href="#ContactUs">Contact us</a>
             </div>
         </div>
@@ -44,8 +44,8 @@
                 <ul class="bannerul">
                     <li class="bannerli"><a href="#Home" >Home</a></li>
                     <li class="bannerli"><a href="#Aboutus">About us</a></li>
-                    <li class="bannerli"><a href="#Events">Events</a></li>
-                    <li class="bannerli"><a href="#Leaders">Leaders</a></li>
+                    <li class="bannerli"><a href="#Recommendations">Recommendations</a></li>
+                    <li class="bannerli"><a href="#Lend Crypto">Lend Crypto</a></li>
                     <li class="bannerli"><a href="#ContactUs">Contact us</a></li>
                 </ul>
             </nav>
@@ -71,7 +71,7 @@
             
         <!--Page 2-->        
         <div id="Aboutus">
-            <div class=""catimg>
+            <div class="catimg">
                 <img src="cat.PNG" class="cat">
                 </div>
             <section class="hidden">
@@ -118,103 +118,56 @@
         </div>
         </div>
 <!--End of Maku Part-->
-<!--Start of events Part-->
-<div id="Events">
-    <div class="event-container">
-        <h3 class="evtitle">Events</h3>
-        <h3 class="year">2024</h3>
-
-         <div class="event">
-    <div class="event-left">
-        <div class="event-date">
-            <div class="date">22</div>
-            <div class="month">Jan</div>
-        </div>
+<!-- START OF LEND CRYPTO SECTION REPLACEMENT -->
+<div id="LendCryptoSection" style="background-color:#073C19; padding: 50px; color: white;">
+    <h1 style="text-align:center; font-size: 48px;">Lend Crypto</h1>
+    
+    <!-- Connect Wallet Button -->
+    <div style="text-align:center; margin-bottom: 30px;">
+      <button onclick="connectWallet()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+        Connect to Metamask Wallet
+      </button>
     </div>
-
-    <div class="event-right">
-        <h3 class="event-title">First Meeting!</h3>
-
-        <div class="event-description">
-            Join our first meeting to learn about the club, engage in a collaborative game session, and dive into project planning.
+    
+    <!-- Flex Container for Loan Boxes -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+      
+      <!-- Request Loan Box -->
+      <div style="background: white; color: black; padding: 30px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px;">
+        <h2 style="text-align:center;">Request a Loan</h2>
+        <form onsubmit="createLoan(); return false;">
+          <label for="loanAmount">Loan Amount (ETH):</label><br>
+          <input type="number" id="loanAmount" step="0.01" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+    
+          <label for="interestRate">Interest Rate (%):</label><br>
+          <input type="number" id="interestRate" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+    
+          <label for="duration">Duration (Months):</label><br>
+          <input type="number" id="duration" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+    
+          <label for="collateralAmount">Collateral Amount (ETH):</label><br>
+          <input type="number" id="collateralAmount" step="0.01" required style="width: 100%; padding: 8px; margin-bottom: 20px;"><br>
+    
+          <button type="submit" style="width: 100%; padding: 10px; font-size: 16px;">Submit Loan Request</button>
+        </form>
+      </div>
+      
+      <!-- Fund Loan Box -->
+      <div style="background: white; color: black; padding: 30px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px;">
+        <h2 style="text-align:center;">Fund a Loan</h2>
+        <p style="text-align:center;">Enter the Loan ID of the loan you want to fund:</p>
+        <div style="text-align:center;">
+          <input type="number" id="loanIdInput" placeholder="Loan ID" style="width: 80%; padding: 10px; margin-bottom: 10px;">
+          <br>
+          <button onclick="fundLoan()" style="padding: 10px 20px; font-size: 16px;">Fund Loan</button>
         </div>
-
-        <div class="event-timing">
-            <i class="fa-regular fa-clock"></i>1:00 pm
-        </div>
+      </div>
+      
     </div>
-</div>
-
-
-        <div class="event">
-            <div class="event-left">
-                <div class="event-date">
-                    <div class="date">29</div>
-                    <div class="month">Jan</div>
-                </div>
-            </div>
-
-            <div class="event-right">
-                <h3 class="event-title">Project Workday</h3>
-
-                <div class="event-description">
-                    Building individual projects to add to our portfolios and to present at the show-and-tell event.
-                </div>
-
-                <div class="event-timing">
-                    <i class="fa-regular fa-clock"></i> 1:30 pm
-                </div>
-            </div>
-        </div>
-
-        <div class="event">
-            <div class="event-left">
-                <div class="event-date">
-                    <div class="date">5</div>
-                    <div class="month">Feb</div>
-                </div>
-            </div>
-
-            <div class="event-right">
-                <h3 class="event-title">Practice problems</h3>
-
-                <div class="event-description">
-                    Practicing LeetCode questions and other coding challenges for skill improvement.
-                </div>
-
-                <div class="event-timing">
-                    <i class="fa-regular fa-clock"></i> 1:30 pm
-                </div>
-            </div>
-        </div>
-
-        <div class="event">
-            <div class="event-left">
-                <div class="event-date">
-                    <div class="date">12</div>
-                    <div class="month">Feb</div>
-                </div>
-            </div>
-
-            <div class="event-right">
-                <h3 class="event-title">Event</h3>
-
-                <div class="event-description">
-                    Creating binary bracelets, followed by a show-and-tell session to share and discuss our projects.
-                </div>
-
-                <div class="event-timing">
-                    <i class="fa-regular fa-clock"></i> 1:30 pm
-                </div>
-            </div>
-        </div>
-
-    </div>
-</body>
-</html>
-
-</div>
-<!--End of events Part-->
+  </div>
+  <!-- END OF LEND CRYPTO SECTION REPLACEMENT -->
+  
+  
 <!--Start of Aline's Part-->
 <div id="Leaders">
 <section class="team">
@@ -231,7 +184,6 @@
                     <div class="icons">
                         <a href="https://discord.com/users/csce_aline" target="_blank"><i class="ri-discord-fill"></i></a>
                         <a href="mailto:alinejouaidi@my.unt.edu" subject="text" target="_blank"><i class="ri-mail-fill"></i></a>
-                        
                     </div>
                 </div>
 
@@ -243,7 +195,6 @@
                     <div class="icons">
                         <a href="https://discord.com/users/_basu" target="_blank"><i class="ri-discord-fill"></i></a>
                         <a href="mailto:aseelshaheen@my.unt.edu"><i class="ri-mail-fill"></i></a>
-                        
                     </div>
                 </div>
 
@@ -255,7 +206,6 @@
                     <div class="icons">
                         <a href="https://discord.com/users/sanskriti_a_97961" target="_blank"><i class="ri-discord-fill"></i></a>
                         <a href="mailto:sanskritiaripineni@my.unt.edu" target="_blank"><i class="ri-mail-fill"></i></a>
-                        
                     </div>
                 </div>
 
@@ -267,25 +217,23 @@
                     <div class="icons">
                         <a href="https://discord.com/users/laasya_06" target="_blank"><i class="ri-discord-fill"></i></a>
                         <a href="mailto:sailaasyaankem@my.unt.edu"><i class="ri-mail-fill"></i></a>
-                        
                     </div>
                 </div>
 
-		        </div>
+		    </div>
         </section>
 	</section>
 </div>
 <!--End of Aline'sPart-->
 <!--Start of Sanskriti's Part-->
-<div id="ContactUs">7
+<div id="ContactUs">
       <form action="https://formspree.io/f/mwkgpkzb" method="POST">
     <h1 class="contact" >Contact us</h1>
-    <input type="text" name="first" placeholder="First Name" autocomplete = "off" required></inout>
-    <input type="text" name="last" placeholder="Last Name" autocomplete = "off" required></inout>
-    <input type="email" name="email" placeholder="Email Address" autocomplete = "off" required></inout>
+    <input type="text" name="first" placeholder="First Name" autocomplete="off" required>
+    <input type="text" name="last" placeholder="Last Name" autocomplete="off" required>
+    <input type="email" name="email" placeholder="Email Address" autocomplete="off" required>
     <textarea rows="5" cols="60" name="message" placeholder="Enter text" autocomplete="off" required></textarea>
     <button type="submit">Send Message</button>
-
                                     
     <footer class="site-footer">
         <div class="social-links">
@@ -297,16 +245,17 @@
         <div class="section-links">
 	        <a href="#Home" >Home</a>
             <a href="#Aboutus" >About us</a>
-            <a href="#Events">Events</a>
-            <a href="#Leaders">Leaders</a>
+            <a href="#Recommendations">Recommendations</a>
+            <a href="#Lend Crypto">Lend Crypto</a>
             <a href="#ContactUs">Contact us</a>
         </div>
         <p class="Credit"> Created by Sanskriti Aripineni, Aseel Shaheen, and Aline Jouaidi</p>
     </footer>
+</form>
 </div>
 <!--End of Sanskriti's Part-->
 	    
-
+<script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 <script defer src="app.js"></script>
     </body>
 </html>
