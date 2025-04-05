@@ -1,0 +1,905 @@
+/*Font (as instructed by font creator)*/
+:root {
+    font-family: Inter, sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1; 
+  }
+  @supports (font-variation-settings: normal) {
+    :root { font-family: InterVariable, sans-serif; }
+  }
+  #Aboutus {
+    scroll-margin-top: 120px;
+  }
+
+body{
+    overflow-x: hidden;
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-color: #0c0c0c;
+    width: 100%;
+}
+.evtitle{
+  font-size: 70px;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  margin-bottom: -12px;
+}
+.event-container {
+    max-width: 70%;
+    margin: 400px auto;
+    margin-bottom: -160px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.event-container h3.year {
+    font-size: 60px;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    margin-top: -12px;
+    color: #197538; 
+  
+}
+
+.event {
+  border-radius: 10px;
+    background-color: white;
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.event-left {
+    background: #073C19;
+    min-width: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 8px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px 0 0 8px;
+}
+
+.event-left .date {
+    font-size: 36px;
+}
+
+.event-left .month {
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.event-right {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.event-title {
+    font-size: 25px;
+    font-weight: bolder;
+    margin: 8px 0;
+    color: black;
+    text-transform: uppercase;
+}
+
+.event-description {
+    color: black;
+    font-size: 20px;
+}
+
+.event-timing {
+    background: #afafaf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 7px;
+    border-radius: 16px;
+    margin: 12px 0;
+    font-size: 15px;
+}
+
+.event-timing i {
+    height: 20px;
+    margin-top:4px;
+    padding-right: 6px;
+}
+
+@media (max-width: 1240px) {
+    .event {
+        flex-direction: column;
+    }
+    .event-container {
+      margin: 100px auto;
+      margin-bottom: -100px;
+  }
+
+    .event-left {
+        padding: 0;
+        border-radius: 8px 8px 0 0;
+        margin-bottom: 10px;
+    }
+
+    .event-left .event-date .date,
+    .event-left .event-date .month {
+        display: inline-block;
+        font-size: 18px;
+    }
+
+    .event-left .event-date {
+        padding: 10px 0;
+    }
+}
+/*start of sanskriti's code*/
+/*
+{
+    background-color: #060616;
+
+}*/
+
+
+.contact{
+    color: white;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 70px;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+input{
+    background-color: white;
+    width: 70%;
+    margin-left: 12%;
+    font-size: 20px;
+    padding: 16px 16px;
+    border-radius: 10px;
+    border-color: black;
+    margin-bottom: 20px;
+}
+
+textarea{
+    background-color: white;
+    width: 70%;
+    margin-left: 12%;
+    font-size: 23px;
+    padding: 16px 16px;
+    border-radius: 10px;
+    border-color: black;
+    margin-bottom: 25px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+input:focus-within{
+    outline: none;
+    border-color: #5bd183;
+    border-width: 3px;
+}
+
+textarea:focus-within{
+    outline: none;
+    border-color: #5bd183;
+    border-width: 3px;
+}
+
+#ContactUs{
+  background-color: #0c0c0c;
+}
+
+button{
+    background-color: #5bd183;
+    border-radius: 20px;
+    border-color: black;
+    font-size: 22px;
+    padding: 7px 17px;
+    text-align: center;
+    display: flex;
+    margin:auto;
+    margin-bottom: 20px;
+}
+
+button:hover{
+    opacity:80%;
+    cursor:pointer;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.site-footer {
+    background-color: #0c0c0c;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.social-links a, .section-links a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.section-links {
+    margin-top: 30px; 
+}
+
+.section-links a {
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.Credit {
+    margin-top: 30px; 
+    font-size: 14px;
+}
+
+/* end of sanskriti code */
+
+#Events{
+  scroll-margin: 110px;
+}
+
+
+
+
+/* aline code*/
+/*Base background*/
+.team{
+  margin-top: 200px;
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	background: #0c0c0c;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.team-content{
+	width: 100%;
+	max-width: 1350px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+	align-items: center;
+	gap: 2rem;
+	text-align: center;
+	margin-top: 4rem;
+}
+.team-content img{
+	width: 100%;
+	height: auto;
+	border-radius: 15px;
+	margin-bottom: 15px;
+}
+.center h1{
+	color: #fff;
+	font-size: 70px;
+	text-align: center;
+}
+
+.box1{
+	padding: 16px;
+	background: #faf9f6;
+	border-radius: 15px;
+	transition: all .38s ease;
+}
+.box1 h3{
+	font-size: 23px;
+	font-weight: 600;
+	color: black;
+	margin-bottom: 8px;
+}
+.box1 h5{
+	font-size: 15px;
+	font-weight: 600;
+	color: black;
+	margin-bottom: 15px;
+	letter-spacing: 2px;
+}
+.icons i{
+	display: inline-block;
+	color: black;
+	font-size: 20px;
+	margin: 0 8px;
+	transition: all .38s ease;
+}
+.icons i:hover{
+	transform: scale(1.2);
+}
+.box1:hover{
+	transform: translateY(-10px);
+	cursor: pointer;
+}
+
+
+/* aline code end*/
+
+/*maku code start*/
+
+.socialsup {
+    position: relative;
+    z-index: 2;
+    bottom: 230px; 
+    margin-left: 10.5%;
+    width: fit-content;
+}
+.box a{
+  color: #57d637;
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+.socialsup a {
+    color: #57d637;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 30px;
+}
+.discres{
+  margin-left: 145px;
+  margin-top: -4px;
+}
+
+.socialsup .fa-instagram{
+    font-size: 32px;
+}
+
+/*color and size of banner*/
+.banner {
+    background-color: #152118; 
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 40;
+    height: 60px
+}
+
+.bannernav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: fit-content;
+}
+
+/*logo image position and design*/
+/*
+.logo {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 94%;
+  margin-top: -10px;
+  width: 60px;
+  height: 60px;
+  z-index: 50;
+  object-fit:cover;
+}
+*/
+
+.circle {
+  left: 95%;
+  top: 3px;
+  z-index: 60;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+.circle span {
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: 30px;
+  font-weight: bolder;
+  z-index: 60;
+  color:#073C19;
+}
+
+/*make the text next to each other instead of under eachother*/
+.bannernav .bannerul .bannerli {
+    display: inline-block;
+    list-style: none;
+    margin: 10px 35px; 
+}
+
+/*unhovered design on nav text*/
+.bannernav .bannerul .bannerli a{
+top: -5px;
+left: 100px;
+color: #B9B9B9;
+text-decoration: none;
+font-size: 15px;
+position: relative;
+}
+
+/*green line position/design*/
+.banner a::after{
+    content: '';
+    width: 0;
+    height:2px;
+    background: #78DC5F;
+    position: absolute;
+    left: 0;
+    bottom:-21px;
+    }
+
+/*green line shows up after hovering over*/   
+.banner a:hover::after{
+    width: 100%;
+    transition: width 0.3s ease;
+}
+
+/*make button white when hovered over */
+.banner a:hover{
+    color: white !important;
+}
+
+/*the white line on the left*/
+.vertical-line {
+    position: absolute;
+    top: 0;
+    left: 90px; 
+    width: 3px; 
+    height: 100vh;
+    background-color: white;
+    z-index: 3;
+}
+
+/*The black part of the page*/
+.learnabout {
+    height: 100vh;
+    position: relative;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box; 
+    z-index: 2;
+}
+#Aboutus {
+  background-color:#073C19;
+  padding: 20px; 
+  margin-top: -35px;
+  position: relative;
+}
+
+/*the class "info" position */
+.info{
+    text-align: left;
+    top: 450px;
+    margin-left: 11%;
+    margin-right: 65%;
+    position: absolute;
+}
+
+   
+/* "Computer Science club" position and design */
+.info h1 {
+    margin: 0;
+    white-space: nowrap;
+    font-weight: bolder;
+    font-size: 80px;
+    margin-bottom: 0;
+  }
+
+
+/* "at Frisco" position and design */
+.info h2{
+    font-weight: normal;
+    font-size: 48px;
+    margin-top: 0;
+}
+
+/* "Learn more about us" position and design */
+.about{
+    color: #fff;
+    top: 200px;
+    text-align: left;
+    margin-left: 11.7%;
+    margin-right: 65%;
+    font-size: 25px;
+    font-weight: normal;
+    position: absolute;
+    z-index: 2;
+}
+
+/* The "about us" color when looked at*/
+.about a:link, .about a:visited {
+    color: #78DC5F;
+    background-color: transparent;
+    text-decoration: none;
+}
+/* The "about us" color when hovered over */
+.about a:hover {
+    color: #16820e;
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  .green {
+    z-index: 20;
+    position: absolute;
+    left: 50%;
+    top: 8%;
+    width: 900px;
+    height: 900px;
+
+}
+.cat img{
+  display: block; /* Make the image a block element */
+  margin: 0 auto;
+}
+.cat{
+  position: absolute;
+  z-index: 20;
+  height: 350px;
+  width: auto;
+  /*top: 174vh;*/
+  transform: translateX(-50%);
+  left: 50%;
+  top: 100%;
+}
+/*position and height of white box*/
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 22vh;
+    
+}
+
+.hidden{
+    opacity: 0;
+    transition: all 1s;
+    filter: blur(3px);
+    transform: translateX(-100%);
+   }
+   @media(prefers-reduced-motion){
+     .hidden{
+       transition: none;
+     }
+   }
+   .show{
+     opacity: 1;
+     filter: blur(0px);
+     transform: translateX(0);
+   }
+
+/*design of white box*/
+.box {
+    display: inline-block;
+    width: 250px;
+    height: 270px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 30px;
+    z-index: 10;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);we
+}
+
+/* Expanded state */
+.box.expanded {
+    width: 400px;
+    transform: translateY(-20px);
+}
+
+/* Hover effect */
+.box:hover {
+    transform: translateY(-20px);
+}
+
+
+/*design of big text in box*/
+.boxname {
+    color:black;
+    text-align: center;
+    margin-top: 3rem;
+    margin-left: 0.5rem;
+    font-size: 35px;
+    font-weight: bolder;
+}
+
+
+.box input {
+    display: none;
+  }
+  
+  .box label {
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100px;
+    height: 25px;
+    background-color: #111111;
+    border-radius: 15px;
+    margin: 15px auto;
+    margin-top: 80px;
+}
+
+  .content{
+    margin-top:-120px;
+    text-align: center;
+  }
+  
+  .box .content {
+    max-height: 0;
+    overflow: hidden;
+  }
+  
+  .box input:checked + label + .content {
+    max-height: 300px;
+  }
+    
+  .box input:checked + label + .content + .boxdesc {
+    margin-top: 3rem;
+    margin-left: 0.5rem;
+  }
+  
+  .box .boxdesc {
+    margin-top: 3rem;
+    margin-left: 0.5rem;
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .mission{
+    text-align: center;
+    margin-top: 150px;
+    color: #fff;
+    font-size: 45px;
+  }
+
+  .missiondesc {
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    padding: 20px;
+    max-width: 1300px; 
+    margin: 0 auto; 
+    margin-bottom: 70px;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 50;
+
+}
+
+.menu-icon {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 2.5px 0;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.mobile-menu-links {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.mobile-menu-links a {
+  padding: 15px;
+  font-size: 18px;
+  color: white;
+  text-decoration: none;
+}
+
+
+/*for samll screens*/
+
+@media(max-width: 1240px){
+
+  .banner{
+    height: 45px;
+  }
+
+  .bannernav {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mobile-menu-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 200px;
+        position: absolute;
+        top: 40px;
+        left: -200px; 
+        background-color: #152118;
+        z-index: 49;
+        transition: transform 0.3s ease; 
+    }
+
+  .mobile-menu.active .mobile-menu-links {
+        transform: translateX(200px); 
+    }
+  .learnabout{
+      background-color: #0c0c0c center no-repeat;
+      height: 100vh;
+      width: 100%;
+  }
+
+  .green{
+    display: none;
+  }
+
+  .vertical-line{
+    left: 3vh;
+    height: 99vh;
+  }
+
+  .info {
+    top: 40vh;
+    left: 1vh;
+  }
+  .info h1{
+    font-size: 40px;
+  }
+  
+  /* "at Frisco" position and design */
+  .info h2{
+    font-size: 25px;
+  }
+  
+  /* "Learn more about us" position and design */
+  
+  .about{
+    top: 15vh;
+    white-space: nowrap;
+    left: 1vh;
+    font-size: 20px;
+  }
+
+  .socialsup{
+    top: -40vh;
+    left: -0.3%;
+    width: 150px;
+  }
+
+  .socialsup a{
+    font-size: 20px;
+  }
+  
+  .socialsup .fa-instagram{
+    font-size: 22px;
+  }
+
+  .bannerul{
+    display: none;
+  }
+  
+  .logo {
+display: none;
+  }
+
+  .container {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+}
+
+.box {
+    width: 60%;
+    margin: 20px auto;
+}
+
+.box.expanded {
+    width: 80%;
+    transform: translateY(0);
+}
+
+.boxname {
+    font-size: 25px;  
+}
+
+.box label {
+    width: 80px;
+    height: 25px;
+    margin: 0px auto;
+    margin-top: 90px;
+}
+
+.mission{
+  font-size: 35px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.missiondesc {
+  font-size: 17px;
+}
+
+.social-links a, .section-links a {
+  font-size: 13px;
+}
+
+.section-links a {
+ font-size: 13px;
+}
+
+.copyright {
+  font-size: 11px;
+}
+
+.contact{
+  font-size: 50px;
+}
+.team{
+	width: auto;
+	height: auto;
+	padding: 0px 2%;
+  display: block;
+}
+
+.center h1{
+	font-size: 50px;
+}
+
+input{
+  font-size: 17px;
+  padding: 13px 16px;
+}
+.cat{
+display: none;
+}
+
+.circle {
+  left: 85%;
+  top: 2px;
+  z-index: 60;
+  position: absolute;
+  width: 37px;
+  height: 37px;
+}
+
+.circle span {
+  font-size: 23px;
+  font-weight: bolder;
+  z-index: 60;
+  color:#073C19;
+}
+/*maku code end*/
+}
