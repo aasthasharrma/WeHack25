@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapid Fire Rounds</title>
+    <link rel="stylesheet" href="quiz-styles.css">  <!-- Ensure this links to your CSS file -->
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Financial Decision Quiz</h1>
+        <h2 id="budgetDisplay">Budget: $1000</h2>
+        <p class="quiz-description">Case: MegaCorp announces 100,000 layoffs after missing earnings by 35%. Stock drops 18% in pre-market.</p>
+        <div class="options">
+            <button class="quiz-button" onclick="displayOutcome('A',1)">Buy the dip — all-in on MegaCorp stock</button>
+            <button class="quiz-button" onclick="displayOutcome('B',1)">Buy $1,000 worth and set a stop-loss</button>
+            <button class="quiz-button" onclick="displayOutcome('C',1)">Buy weekly call options</button>
+            <button class="quiz-button" onclick="displayOutcome('D',1)">Buy monthly put options</button>
+        </div>
+        <div class="outcome">
+            <p id="outcomeText1"></p>
+        </div>
+
+
+        <p class="quiz-description">Case: The Fed announces a surprise 0.75% interest rate hike. Markets tank immediately</p>
+        <div class="options">
+            <button class="quiz-button" onclick="displayOutcome('A',2)">Short the S&P 500</button>
+            <button class="quiz-button" onclick="displayOutcome('B',2)">Buy bank stocks</button>
+            <button class="quiz-button" onclick="displayOutcome('C',2)">Buy tech stocks at a discount</button>
+            <button class="quiz-button" onclick="displayOutcome('D',2)">Hold cash and wait it out</button>
+        </div>
+        <div class="outcome">
+            <p id="outcomeText2"></p>
+        </div>
+
+
+        <p class="quiz-description">MemeStockz is up 300% this week after trending on Reddit. High volume, high volatility.</p>
+        <div class="options">
+            <button class="quiz-button" onclick="displayOutcome('A',3)">Buy in — can't miss the moonshot</button>
+            <button class="quiz-button" onclick="displayOutcome('B',3)">Buy puts expecting a crash </button>
+            <button class="quiz-button" onclick="displayOutcome('C',3)">Stay out — too risky</button>
+            <button class="quiz-button" onclick="displayOutcome('D',3)">Sell covered calls if you already own shares</button>
+        </div>
+        <div class="outcome">
+            <p id="outcomeText3"></p>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="templates/index.html" class="quiz-button">Return to Home</a>
+        </div>
+    </div>
+    <script src="quiz.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
