@@ -9,7 +9,7 @@ app.use(express.static(__dirname));
 
 // Serve HTML file
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'template/index.html'));
 });
 
 app.listen(port, () => {
