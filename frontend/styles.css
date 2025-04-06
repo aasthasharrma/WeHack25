@@ -241,6 +241,36 @@ body {
     font-size: 14px;
 }
 
+.quiz-button-container {
+  display: block; /* Ensures buttons are stacked vertically */
+    width: 100%; /* Each button takes the full width of its container */
+    padding: 12px 20px;
+    margin-bottom: 10px; /* Space between buttons */
+    background-color: #152118; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  align-items: center;
+  text-align: center;
+  font-size:xx-large;
+}
+.quiz-button {
+  display: block; /* Ensures buttons are stacked vertically */
+  width: 100%; /* Each button takes the full width of its container */
+  padding: 12px 20px;
+  margin-bottom: 10px; /* Space between buttons */
+  background-color: #16820e; /* Green background */
+  
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
 /* end of sanskriti code */
 
 #Events{
@@ -252,6 +282,7 @@ body {
 
 /* aline code*/
 /*Base background*/
+/*
 .team{
   margin-top: 200px;
 	position: relative;
@@ -285,6 +316,26 @@ body {
 	font-size: 70px;
 	text-align: center;
 }
+*/
+
+/* Financial Education Tool Styles Start */
+body, html {
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none; /* Removes underline from links */
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+/* end the financial section sanskriti*/
 
 .box1{
 	padding: 16px;
@@ -539,7 +590,7 @@ position: relative;
 }
 .cat img{
   display: block; /* Make the image a block element */
-  margin: 0 auto;
+  /*margin: 0 auto;*/
 }
 #Aboutus .cat {
   position: absolute;
@@ -905,4 +956,7 @@ input{
   color:#073C19;
 }
 /*maku code end*/
+
+
+}
 }
