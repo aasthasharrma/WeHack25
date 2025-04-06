@@ -326,12 +326,14 @@ body {
 /*maku code start*/
 
 .socialsup {
-    position: relative;
-    z-index: 2;
-    bottom: 230px; 
-    margin-left: 10.5%;
-    width: fit-content;
+  position: relative;
+  z-index: 2;
+  margin-left: 10.5%;
+  margin-top: 0px; /* push it down slightly */
+  bottom: 0; /* remove the aggressive push upward */
+  width: fit-content;
 }
+
 .box a{
   color: #57d637;
   margin: 0 10px;
@@ -1040,4 +1042,60 @@ input{
   margin: 10px;
 }
 /*maku code end*/
+}
+
+/* Fix overflowing input fields inside loan boxes */
+#LendCryptoSection input[type="number"],
+#LendCryptoSection input[type="text"] {
+  width: 95%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#LendCryptoSection form {
+  overflow: hidden;
+  box-sizing: border-box;
+}
+/* Clean layout for Request a Loan section */
+#LendCryptoSection form {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#LendCryptoSection form label {
+  align-self: flex-start;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+#LendCryptoSection input[type="number"],
+#LendCryptoSection input[type="text"] {
+  width: 95%;
+  max-width: 400px;
+  padding: 10px 14px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border: 1.5px solid #000;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+#LendCryptoSection button[type="submit"] {
+  margin-top: 10px;
+  width: 95%;
+  max-width: 400px;
+}
+
+/* Make the individual loan box shorter */
+.loan-card {
+  max-height: 120px;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
 }

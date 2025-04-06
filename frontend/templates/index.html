@@ -55,16 +55,12 @@
         <!--page 1-->
             <header id="Home" class= "learnabout">
                 <div class="info">
-                        <h1> COMPUTER <br> SCIENCE CLUB </h1> 
-                        <h2> at Frisco.</h2>      
+                        <h1> BREADBOT</h1> 
+                        <h2> Request and Invest</h2>      
             </header>  
-                        <p class="about">Learn more <a href="#Aboutus">about us</a>.</p> 
+                        <p class="about"> Learn Quick, <a href="#Aboutus">Make Bread</a>.</p> 
                                 <!--socials-->
-                        <div class="socialsup">
-                            <a href="https://www.instagram.com/untfrisco_csclub/" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="https://discord.gg/WdfxwW9WDg" target="_blank"><i class="fab fa-discord"></i></a>
-                            <a href="https://www.remind.com/join/friscocs" target="_blank"><i class="fas fa-bell"></i></a>
-                        </div> 
+
                 </div>            
         <!--green thing-->
 
@@ -80,43 +76,41 @@
                     <!--box 1-->
                     <div class="box box-item">
                         <h3 class="boxname">What We Offer</h3>
-                        <p class="boxdesc">Project-based learning</p>
+                        <p class="boxdesc">P2P Lending and Real Time Stock Recommendations</p>
                         <input type="checkbox" id="first">
                         <label for="first">See more</label>
                         <div class="content">
-                            <p>We provide tech talks, show-and-tell sessions, coding resources, opportunities for personal projects, LeetCode practice, and enjoyable events.</p>
+                            <p>Welcome to BreadBot – your spot for making “Bread” on a budget. Whether you’re into crypto, the S&P, or just exploring investing, we’ve got you covered! </p>
                         </div>
                     </div>
                     
                     <!--box 2-->
                     <div class="box box-item">
-                        <h3 class="boxname">Meeting Time</h3>
-                        <p class="boxdesc">Every Monday at 1pm</p>
+                        <h3 class="boxname">Need a Loan?</h3>
+                        <p class="boxdesc">We hook you up with a pool of loans to request or fund!</p>
                         <input type="checkbox" id="second">
                         <label for="second">See more</label>
                         <div class="content">
-                        <p>Room number: # </p>
+                        <p>Whether you're earning interest, exploring stocks, or just getting started, our smart contracts and tools make learning and investing in crypto easy and efficient. </p>
                         </div>
                     </div>
                     
                     <!--box 3-->
                     <div class="box box-item">
-                        <h3 class="boxname">Practice</h3>
-                        <p class="boxdesc">Resources</p>
+                        <h3 class="boxname">DarkMode</h3>
+                        <p class="boxdesc">Enter At Your Own Risk</p>
                         <input type="checkbox" id="third">
                         <label for="third">See more</label>
                         <div class="content">
-                        <p>Sharpen your coding skills by taking on LeetCode challenges and constructing projects tailored to your interests. 
+                        <p>Keep scrolling, you'll see it...                                                                                                                                   </p>      
                          <div class="discres">
-                         <a href="https://discord.gg/PKS2YPWtRX" target="_blank"><i class="fab fa-discord"></i></a>
+                         
                         </div></p>
                         </div>
                     </div>
                 </div>
             </section>
-            <h1 class="mission">Our Mission :-</h1>   
-            <p class="missiondesc">The mission of the Computer Science Club at Frisco is to expand our knowledge of the various concepts that fall under the umbrella of Computer Science. We aim to educate and innovate with our collective insight as a student-run organization. With a focus on project-based learning, our hands-on approach will continually evolve to accommodate the changing technological world.</p>  
-        </div>
+            
         </div>
 <!--End of Maku Part-->
 
@@ -202,139 +196,194 @@
 
 <!-- START OF LEND CRYPTO SECTION REPLACEMENT -->
 <div id="LendCryptoSection" style="background-color:#073C19; padding: 50px; color: white;">
-    <h1 style="text-align:center; font-size: 48px;">Lend Crypto</h1>
-    
+    <h1 style="text-align:center; font-size: 48px;">Breaking into Crypto?</h1>
+  
     <!-- Connect Wallet Button -->
     <div style="text-align:center; margin-bottom: 30px;">
       <button onclick="connectWallet()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
         Connect to Metamask Wallet
       </button>
     </div>
-    
+<!-- START: TradingView Chart Widget -->
+<div style="margin-bottom: 40px; background-color: white; border-radius: 15px; padding: 20px;">
+    <div class="tradingview-widget-container" style="width: 100%; height: 450px;">
+      <div class="tradingview-widget-container__widget"></div>
+  
+      <!-- Put JSON as plain text inside this script -->
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+      
+        var widgetSettings = {"symbols": [
+          ["COINBASE:ETHUSD|1D"],
+          ["COINBASE:BTCUSD|1D"]
+        ],
+        "chartOnly": false,
+        "width": "100%",
+        "height": "100%",
+        "locale": "en",
+        "colorTheme": "light",
+        "autosize": true,
+        "showVolume": false,
+        "showMA": false,
+        "hideDateRanges": false,
+        "hideMarketStatus": false,
+        "hideSymbolLogo": false,
+        "scalePosition": "right",
+        "scaleMode": "Normal",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+        "fontSize": "10",
+        "noTimeScale": false,
+        "valuesTracking": "1",
+        "changeMode": "price-and-percent",
+        "chartType": "area",
+        "lineWidth": 2,
+        "lineType": 0,
+        "dateRanges": ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"]
+        }
+      </script>
+    </div>
+  </div>
+  <!-- END: TradingView Chart Widget -->
+  
+  
     <!-- Flex Container for Loan Boxes -->
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
-      
+  
       <!-- Request Loan Box -->
-      <div style="background: white; color: black; padding: 30px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px;">
+      <div style="background: white; color: black; padding: 20px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px; max-height: 450px; overflow-y: auto; box-sizing: border-box;">
         <h2 style="text-align:center;">Request a Loan</h2>
         <form onsubmit="createLoan(); return false;">
           <label for="loanAmount">Loan Amount (ETH):</label><br>
-          <input type="number" id="loanAmount" step="0.01" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
-    
+          <input type="number" id="loanAmount" step="0.00000001" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;"><br>
+  
           <label for="interestRate">Interest Rate (%):</label><br>
-          <input type="number" id="interestRate" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
-    
+          <input type="number" id="interestRate" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;"><br>
+  
           <label for="duration">Duration (Months):</label><br>
-          <input type="number" id="duration" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
-    
+          <input type="number" id="duration" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;"><br>
+  
           <label for="collateralAmount">Collateral Amount (ETH):</label><br>
-          <input type="number" id="collateralAmount" step="0.01" required style="width: 100%; padding: 8px; margin-bottom: 20px;"><br>
-    
+          <input type="number" id="collateralAmount" step="0.00000001" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 20px;"><br>
+  
           <button type="submit" style="width: 100%; padding: 10px; font-size: 16px;">Submit Loan Request</button>
         </form>
       </div>
-      
+  
       <!-- Fund Loan Box -->
-      <div style="background: white; color: black; padding: 30px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px;">
+      <div style="background: white; color: black; padding: 20px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px; max-height: 450px; overflow-y: auto; box-sizing: border-box;">
         <h2 style="text-align:center;">Fund a Loan</h2>
-        <p style="text-align:center;">Enter the Loan ID of the loan you want to fund:</p>
-        <div style="text-align:center;">
-          <input type="number" id="loanIdInput" placeholder="Loan ID" style="width: 80%; padding: 10px; margin-bottom: 10px;">
-          <br>
-          <button onclick="fundLoan()" style="padding: 10px 20px; font-size: 16px;">Fund Loan</button>
+        <p style="text-align:center;">Scroll through available loan requests below:</p>
+        <div id="loanList" style="max-height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+          <!-- Dynamic loan cards will be inserted here by JS -->
         </div>
       </div>
-      
+  
     </div>
   </div>
   <!-- END OF LEND CRYPTO SECTION REPLACEMENT -->
   
   
+  
+  
 <!--Start of Aline's Part-->
-<div id="Leaders">
-<section class="team">
-		<div class="center">
-			<h1>Leaders</h1>
-		</div>
-        <section class="hidden">
-            <div class="team-content">
-                <div class="box1">
-                    <img src="cat.jpg" alt="aline">
-                    <h3>Aline A Jouaidi</h3>
-                    <h5>Freshman</h5>
-                    <h5>Computer Science</h5>
-                    <div class="icons">
-                        <a href="https://discord.com/users/csce_aline" target="_blank"><i class="ri-discord-fill"></i></a>
-                        <a href="mailto:alinejouaidi@my.unt.edu" subject="text" target="_blank"><i class="ri-mail-fill"></i></a>
-                    </div>
-                </div>
 
-                <div class="box1">
-                    <img src="cat.jpg" alt="aseel">
-                    <h3>Aseel Shaheen</h3>
-                    <h5>Freshman</h5>
-                    <h5>Computer Science</h5>
-                    <div class="icons">
-                        <a href="https://discord.com/users/_basu" target="_blank"><i class="ri-discord-fill"></i></a>
-                        <a href="mailto:aseelshaheen@my.unt.edu"><i class="ri-mail-fill"></i></a>
-                    </div>
-                </div>
-
-                <div class="box1">
-                    <img src="cat.jpg" alt="sanskriti">
-                    <h3>Sanskriti Aripineni</h3>
-                    <h5>Freshman</h5>
-                    <h5>Computer Science</h5>
-                    <div class="icons">
-                        <a href="https://discord.com/users/sanskriti_a_97961" target="_blank"><i class="ri-discord-fill"></i></a>
-                        <a href="mailto:sanskritiaripineni@my.unt.edu" target="_blank"><i class="ri-mail-fill"></i></a>
-                    </div>
-                </div>
-
-                <div class="box1">
-                    <img src="cat.jpg" alt="laasya">
-                    <h3>Sai Laasya Ankem</h3>
-                    <h5>Freshman</h5>
-                    <h5>Computer Science</h5>
-                    <div class="icons">
-                        <a href="https://discord.com/users/laasya_06" target="_blank"><i class="ri-discord-fill"></i></a>
-                        <a href="mailto:sailaasyaankem@my.unt.edu"><i class="ri-mail-fill"></i></a>
-                    </div>
-                </div>
-
-		    </div>
-        </section>
-	</section>
-</div>
 <!--End of Aline'sPart-->
 <!--Start of Sanskriti's Part-->
-<div id="ContactUs">
-      <form action="https://formspree.io/f/mwkgpkzb" method="POST">
-    <h1 class="contact" >Contact us</h1>
-    <input type="text" name="first" placeholder="First Name" autocomplete="off" required>
-    <input type="text" name="last" placeholder="Last Name" autocomplete="off" required>
-    <input type="email" name="email" placeholder="Email Address" autocomplete="off" required>
-    <textarea rows="5" cols="60" name="message" placeholder="Enter text" autocomplete="off" required></textarea>
-    <button type="submit">Send Message</button>
-                                    
-    <footer class="site-footer">
-        <div class="social-links">
-            <a href="https://www.instagram.com/untfrisco_csclub/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://discord.gg/WdfxwW9WDg" target="_blank"><i class="fab fa-discord"></i> Discord</a>
-            <a href="https://www.remind.com/join/friscocs" target="_blank"><i class="fas fa-bell"></i> Remind</a>
-        </div>
+<div id="ContactUs" style="padding: 40px; background-color: #111; color: white; font-family: sans-serif;">
 
-        <div class="section-links">
-	        <a href="#Home" >Home</a>
-            <a href="#Aboutus" >About us</a>
-            <a href="#Recommendations">Recommendations</a>
-            <a href="#Lend Crypto">Lend Crypto</a>
-            <a href="#ContactUs">Contact us</a>
-        </div>
-        <p class="Credit"> Created by Sanskriti Aripineni, Aseel Shaheen, and Aline Jouaidi</p>
-    </footer>
-</form>
-</div>
+    <h1 style="text-align: center; margin-bottom: 30px;">Still Confused?</h1>
+  
+    <style>
+      details {
+        background-color: #000;
+        color: white;
+        border: 1px solid white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
+  
+      summary {
+        font-size: 18px;
+        font-weight: bold;
+        position: relative;
+        padding-right: 20px;
+      }
+  
+      summary::marker {
+        display: none;
+      }
+  
+      summary::after {
+        content: "▼";
+        position: absolute;
+        right: 0;
+        transition: transform 0.3s ease;
+      }
+  
+      details[open] summary::after {
+        transform: rotate(180deg);
+      }
+  
+      details p {
+        margin-top: 10px;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+    </style>
+  
+    <!-- FAQ Items -->
+    <details>
+      <summary>What is a REIT (Real Estate Investment Trust)?</summary>
+      <p>
+        A REIT is a company that owns, operates, or finances income-producing real estate. It allows individual investors to earn a share of the income produced through commercial real estate ownership without having to buy or manage properties directly.
+      </p>
+    </details>
+  
+    <details>
+      <summary>How does our model predict REIT performance?</summary>
+      <p>
+        We use advanced deep learning techniques—specifically Convolutional Neural Networks (CNNs) and Long Short-Term Memory Networks (LSTMs)—to analyze real estate market data, historical trends, and public sentiment. This hybrid model allows for both short-term signal recognition (CNN) and long-term pattern learning (LSTM).
+      </p>
+    </details>
+  
+    <details>
+      <summary>What is a CNN in machine learning?</summary>
+      <p>
+        A Convolutional Neural Network (CNN) is a type of deep learning model that excels at recognizing patterns in spatial data. In our case, CNNs help detect trends or features in visualized data sets like heatmaps or price movements.
+      </p>
+    </details>
+  
+    <details>
+      <summary>What is an LSTM?</summary>
+      <p>
+        Long Short-Term Memory (LSTM) is a form of recurrent neural network (RNN) designed to remember information over long sequences. It's especially useful in time-series forecasting, which helps us predict REIT trends over time.
+      </p>
+    </details>
+  
+    <details>
+      <summary>How is our platform different from traditional investing tools?</summary>
+      <p>
+        Unlike traditional platforms, we integrate machine learning into the investment recommendation process, offering data-backed insights powered by real-time learning models. This makes predictions more adaptive and reliable.
+      </p>
+    </details>
+  
+    <details>
+      <summary>What is collateral in crypto lending?</summary>
+      <p>
+        Collateral is a guarantee in the form of crypto assets provided by the borrower. If they fail to repay the loan, the collateral is transferred to the lender to cover losses. It helps secure the lending process and build trust between parties.
+      </p>
+    </details>
+  
+    <details>
+      <summary>How does peer-to-peer lending work on our platform?</summary>
+      <p>
+        Borrowers request loans and specify the amount, duration, interest rate, and collateral. Lenders browse requests and choose who to fund. If terms are met, the loan is approved and executed on the Ethereum blockchain.
+      </p>
+    </details>
+  
+  </div>
+  
 <!--End of Sanskriti's Part-->
 	    
 <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
