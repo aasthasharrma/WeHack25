@@ -7,9 +7,11 @@ import os
 class RedditStockTrader:
     def __init__(self, stock_ticker):
         # Reddit API credentials
-        self.client_id = 'JRSdzEF-EwY3lial42o0ig'
-        self.client_secret = 'AQLZ6zdXvLD5rPs_0xMiB6vlhytuqQ'
-        self.user_agent = 'test'
+        
+        self.client_id = os.getenv('CLIENT_ID')
+        
+        self.client_secret = os.getenv('CLIENT_SECRET')
+        self.user_agent = os.getenv('USER_AGENT')
         
         # Initialize Reddit instance
         self.reddit = praw.Reddit(
