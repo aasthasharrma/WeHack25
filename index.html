@@ -12,11 +12,18 @@
       padding: 2em;
       margin: 0;
     }
-    .hud {$1
+    .hud {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      background: rgba(20, 20, 20, 0.9);
+      border: 1px solid #444;
+      padding: 1em;
+      border-radius: 8px;
+      z-index: 1000;
+      text-align: right;
       max-width: 180px;
       font-size: 0.95em;
-      right: 0.5em;
-      top: 0.5em;
     }
     .money { color: #39ff14; }
     .liquidity { color: #00bfff; }
@@ -178,39 +185,76 @@
       const responseDiv = document.getElementById("response");
       responseDiv.innerText = "💬 Talking to the shady dealer...";
 
-      const res = await fetch("/gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          scenario: s.text,
-          choices: s.choices.map(c => c.label),
-          selected: choice.label,
-          metrics: {
-            netWorth: "$" + money,
-            liquidity: liquidity + "%",
-            stress: stress + "%",
-            cash: "$" + money
-          },
-          chatHistory
-        })
-      });
+      try {
+        const res = await fetch("/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            scenario: s.text,
+            choices: s.choices.map(c => c.label),
+            selected: choice.label,
+            metrics: {
+              netWorth: "$" + money,
+              liquidity: liquidity + "%",
+              stress: stress + "%",
+              cash: "$" + money
+            },
+            chatHistory,
+            tone: "shady"
+          })
+        });
 
-      const reply = await res.text();
-      chatHistory.push({ role: "assistant", content: reply });
+        const reply = await res.text();
+        chatHistory.push({ role: "assistant", content: reply });
+        responseDiv.innerText = "💬 " + reply;
+        document.querySelector(".chatbox").style.display = "block";
+        document.getElementById("nextBtn").style.display = "block";
 
-      responseDiv.innerText = "💬 " + reply;
-      document.querySelector(".chatbox").style.display = "block";
-      document.getElementById("nextBtn").style.display = "block";
+        const history = document.getElementById("history");
+        const entry = document.createElement("div");
+        entry.classList.add("entry");
+        entry.innerHTML = `
+          <strong>📢 ${s.text}</strong><br/>
+          <strong>🧠 You chose:</strong> ${choice.label}<br/>
+          <strong>💬 Dealer says:</strong> ${reply}
+        `;
+        history.appendChild(entry);
+      } catch (err) {
+        responseDiv.innerText = "💬 The dealer ghosted you. Try again later.";
+      }
+    }
 
-      const history = document.getElementById("history");
-      const entry = document.createElement("div");
-      entry.classList.add("entry");
-      entry.innerHTML = `
-        <strong>📢 ${s.text}</strong><br/>
-        <strong>🧠 You chose:</strong> ${choice.label}<br/>
-        <strong>💬 Dealer says:</strong> ${reply}
-      `;
-      history.appendChild(entry);
+    async function sendFollowUp() {
+      const input = document.getElementById("chatInput");
+      const userMessage = input.value;
+      input.value = "";
+      chatHistory.push({ role: "user", content: userMessage });
+
+      try {
+        const res = await fetch("/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            scenario: scenarios[current].text,
+            choices: scenarios[current].choices.map(c => c.label),
+            selected: "Follow-up",
+            metrics: {
+              netWorth: "$" + money,
+              liquidity: liquidity + "%",
+              stress: stress + "%",
+              cash: "$" + money
+            },
+            chatHistory,
+            tone: "educational"
+          })
+        });
+
+        const reply = await res.text();
+        chatHistory.push({ role: "assistant", content: reply });
+        document.getElementById("response").innerText += "\n💬 " + reply;
+      } catch (err) {
+        document.getElementById("response").innerText += "\n💬 Dealer ain't answering questions right now.";
+      }
     }
 
     function nextScenario() {
@@ -226,34 +270,6 @@
           <p><strong>Final Stress:</strong> ${stress}%</p>
         `;
       }
-    }
-
-    async function sendFollowUp() {
-      const input = document.getElementById("chatInput");
-      const userMessage = input.value;
-      input.value = "";
-      chatHistory.push({ role: "user", content: userMessage });
-
-      const res = await fetch("/gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          scenario: scenarios[current].text,
-          choices: scenarios[current].choices.map(c => c.label),
-          selected: "Follow-up",
-          metrics: {
-            netWorth: "$" + money,
-            liquidity: liquidity + "%",
-            stress: stress + "%",
-            cash: "$" + money
-          },
-          chatHistory
-        })
-      });
-
-      const reply = await res.text();
-      chatHistory.push({ role: "assistant", content: reply });
-      document.getElementById("response").innerText += "\n💬 " + reply;
     }
 
     loadScenario(current);
