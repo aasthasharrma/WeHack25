@@ -3,50 +3,260 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dark Mode Finance</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: monospace;
+      font-size: 1.1em;
+      padding: 2em;
+      margin: 0;
+    }
+    .hud {$1
+      max-width: 180px;
+      font-size: 0.95em;
+      right: 0.5em;
+      top: 0.5em;
+    }
+    .money { color: #39ff14; }
+    .liquidity { color: #00bfff; }
+    .stress { color: #ff6666; }
+    button {
+      margin: 0.5em 1em 0.5em 0;
+      padding: 0.6em 1.2em;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #333; }
+    .chatbox {
+      margin-top: 1em;
+    }
+    .chatbox input {
+      width: 80%;
+      padding: 0.5em;
+      margin-right: 0.5em;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+    .chatbox button {
+      background: #39ff14;
+      color: black;
+      font-weight: bold;
+    }
+    .entry {
+      border-top: 1px dashed #555;
+      padding-top: 1em;
+      margin-top: 1em;
+    }
+  </style>
 </head>
-<body style="background:#111; color:#fff; font-family:monospace; padding:2em;">
+<body>
+  <div class="hud">
+    💰 <span class="money" id="money">$1000</span><br/>
+    💧 <span class="liquidity" id="liquidity">100%</span><br/>
+    🔥 <span class="stress" id="stress">0%</span>
+  </div>
 
-  <h2>Scenario:</h2>
-  <p id="scenario">The crypto market crashes 60% overnight.</p>
+  <h1>💸 Dark Mode 💸</h1>
+  <div id="history"></div>
+  <hr>
 
-  <h3>Choose an action:</h3>
-  <button onclick="submitChoice('Buy the dip')">Buy the dip</button>
-  <button onclick="submitChoice('Sell everything')">Sell everything</button>
-  <button onclick="submitChoice('Convert to stablecoins')">Convert to stablecoins</button>
-  <button onclick="submitChoice('Hold your positions')">Hold your positions</button>
-
-  <div id="response" style="margin-top: 2em;"></div>
+  <div id="game">
+    <h2>Scenario:</h2>
+    <p id="scenario"></p>
+    <div id="choices"></div>
+    <div id="response" style="margin-top: 2em;"></div>
+    <div class="chatbox" style="display:none">
+      <input type="text" id="chatInput" placeholder="Ask the shady dealer a follow-up...">
+      <button onclick="sendFollowUp()">Send</button>
+    </div>
+    <button id="nextBtn" style="margin-top:2em; display:none" onclick="nextScenario()">Next Scenario →</button>
+  </div>
 
   <script>
-    async function submitChoice(choice) {
+    const moneyEl = document.getElementById("money");
+    const liquidityEl = document.getElementById("liquidity");
+    const stressEl = document.getElementById("stress");
+
+    let money = 1000;
+    let liquidity = 100;
+    let stress = 0;
+
+    const scenarios = [
+  {
+    text: "MegaCorp announces 100,000 layoffs after missing earnings by 35%. Stock drops 18% in pre-market.",
+    choices: [
+      { label: "Buy the dip — all-in on MegaCorp stock", moneyChange: -300, liquidityChange: -100, stressChange: 30 },
+      { label: "Buy $1,000 worth and set a stop-loss", moneyChange: -50, liquidityChange: -50, stressChange: 10 },
+      { label: "Buy weekly call options", moneyChange: -200, liquidityChange: -80, stressChange: 20 },
+      { label: "Buy monthly put options", moneyChange: 250, liquidityChange: -80, stressChange: -10 }
+    ]
+  },
+  {
+    text: "The Fed announces a surprise 0.75% interest rate hike. Markets tank immediately.",
+    choices: [
+      { label: "Short the S&P 500", moneyChange: 150, liquidityChange: -80, stressChange: -10 },
+      { label: "Buy bank stocks", moneyChange: 50, liquidityChange: -50, stressChange: 0 },
+      { label: "Buy tech stocks at a discount", moneyChange: -200, liquidityChange: -70, stressChange: 25 },
+      { label: "Hold cash and wait it out", moneyChange: 0, liquidityChange: 0, stressChange: -5 }
+    ]
+  },
+  {
+    text: "MemeStockz is up 300% this week after trending on Reddit. High volume, high volatility.",
+    choices: [
+      { label: "Buy in — can’t miss the moonshot", moneyChange: -400, liquidityChange: -100, stressChange: 35 },
+      { label: "Buy puts expecting a crash", moneyChange: 200, liquidityChange: -80, stressChange: -5 },
+      { label: "Stay out — too risky", moneyChange: 0, liquidityChange: 0, stressChange: 0 },
+      { label: "Sell covered calls if you already own shares", moneyChange: 100, liquidityChange: -30, stressChange: 5 }
+    ]
+  },
+  {
+    text: "Middle East tensions drive oil up 20% in a day. Energy stocks rally hard.",
+    choices: [
+      { label: "Buy an oil ETF (like XLE)", moneyChange: 120, liquidityChange: -60, stressChange: -5 },
+      { label: "Short airline stocks", moneyChange: 150, liquidityChange: -70, stressChange: -10 },
+      { label: "Buy leveraged oil ETF (like UCO)", moneyChange: -300, liquidityChange: -90, stressChange: 25 },
+      { label: "Wait to see if it’s a fakeout", moneyChange: 0, liquidityChange: 0, stressChange: 0 }
+    ]
+  },
+  {
+    text: "Crypto exchange CoinScam halts withdrawals. Bitcoin drops 30% in 24 hours.",
+    choices: [
+      { label: "Buy the dip aggressively", moneyChange: -300, liquidityChange: -100, stressChange: 40 },
+      { label: "Start DCA-ing over weeks", moneyChange: -100, liquidityChange: -20, stressChange: 10 },
+      { label: "Move crypto to cold storage", moneyChange: 0, liquidityChange: -50, stressChange: -10 },
+      { label: "Sell everything before it drops more", moneyChange: -300, liquidityChange: 0, stressChange: 30 }
+    ]
+  }
+];
+
+    let current = 0;
+    let chatHistory = [];
+
+    function updateHUD() {
+      moneyEl.textContent = "$" + money;
+      liquidityEl.textContent = liquidity + "%";
+      stressEl.textContent = stress + "%";
+    }
+
+    function loadScenario(index) {
+      const s = scenarios[index];
+      document.getElementById("scenario").innerText = s.text;
+      document.getElementById("response").innerText = "";
+      document.getElementById("nextBtn").style.display = "none";
+      document.querySelector(".chatbox").style.display = "none";
+
+      const choicesDiv = document.getElementById("choices");
+      choicesDiv.innerHTML = "";
+      s.choices.forEach((choice, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.label;
+        btn.onclick = () => makeChoice(i);
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    async function makeChoice(index) {
+      const s = scenarios[current];
+      const choice = s.choices[index];
+      money += choice.moneyChange;
+      liquidity += choice.liquidityChange;
+      stress += choice.stressChange;
+
+      if (liquidity > 100) liquidity = 100;
+      if (liquidity < 0) liquidity = 0;
+      if (stress > 100) stress = 100;
+      if (stress < 0) stress = 0;
+
+      updateHUD();
+
       const responseDiv = document.getElementById("response");
-      responseDiv.innerText = "Talking to the shady dealer...";
+      responseDiv.innerText = "💬 Talking to the shady dealer...";
 
       const res = await fetch("/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          scenario: "The crypto market crashes 60% overnight.",
-          choices: [
-            "Sell everything",
-            "Hold your positions",
-            "Buy the dip",
-            "Convert to stablecoins"
-          ],
-          selected: choice,
+          scenario: s.text,
+          choices: s.choices.map(c => c.label),
+          selected: choice.label,
           metrics: {
-            netWorth: "↓ 40%",
-            liquidity: "💧",
-            stress: "🔥🔥🔥",
-            cash: "$300"
-          }
+            netWorth: "$" + money,
+            liquidity: liquidity + "%",
+            stress: stress + "%",
+            cash: "$" + money
+          },
+          chatHistory
         })
       });
 
-      const reply = await result.text();
-responseDiv.innerText = "💬 " + reply;
+      const reply = await res.text();
+      chatHistory.push({ role: "assistant", content: reply });
 
+      responseDiv.innerText = "💬 " + reply;
+      document.querySelector(".chatbox").style.display = "block";
+      document.getElementById("nextBtn").style.display = "block";
+
+      const history = document.getElementById("history");
+      const entry = document.createElement("div");
+      entry.classList.add("entry");
+      entry.innerHTML = `
+        <strong>📢 ${s.text}</strong><br/>
+        <strong>🧠 You chose:</strong> ${choice.label}<br/>
+        <strong>💬 Dealer says:</strong> ${reply}
+      `;
+      history.appendChild(entry);
     }
+
+    function nextScenario() {
+      current++;
+      chatHistory = [];
+      if (current < scenarios.length) {
+        loadScenario(current);
+      } else {
+        document.getElementById("game").innerHTML = `
+          <h2>🎉 Game complete. You survived the market! 💹</h2>
+          <p><strong>Final Net Worth:</strong> $${money}</p>
+          <p><strong>Final Liquidity:</strong> ${liquidity}%</p>
+          <p><strong>Final Stress:</strong> ${stress}%</p>
+        `;
+      }
+    }
+
+    async function sendFollowUp() {
+      const input = document.getElementById("chatInput");
+      const userMessage = input.value;
+      input.value = "";
+      chatHistory.push({ role: "user", content: userMessage });
+
+      const res = await fetch("/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scenario: scenarios[current].text,
+          choices: scenarios[current].choices.map(c => c.label),
+          selected: "Follow-up",
+          metrics: {
+            netWorth: "$" + money,
+            liquidity: liquidity + "%",
+            stress: stress + "%",
+            cash: "$" + money
+          },
+          chatHistory
+        })
+      });
+
+      const reply = await res.text();
+      chatHistory.push({ role: "assistant", content: reply });
+      document.getElementById("response").innerText += "\n💬 " + reply;
+    }
+
+    loadScenario(current);
   </script>
 </body>
 </html>
