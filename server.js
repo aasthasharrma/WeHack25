@@ -1,63 +1,46 @@
 import express from "express";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
-app.use(express.static("public")); // Serve HTML
+app.use(express.json());
+app.use(express.static("public"));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post("/gemini", async (req, res) => {
   const { scenario, choices, selected, metrics, chatHistory, tone } = req.body;
 
-  let prompt = "";
+  const characterIntro =
+    tone === "educational"
+      ? "You are now a chill but helpful finance mentor explaining the concepts in detail to a beginner who just made a decision. Keep it encouraging and easy to follow."
+      : "You are a shady, sarcastic financial advisor in a simulation game who gives brutally honest but funny feedback in 2-3 sentences.";
 
-  if (tone === "educational") {
-    const lastUserMessage = chatHistory?.filter(msg => msg.role === "user").slice(-1)[0]?.content || "";
-
-    prompt = `
-You're a kind, knowledgeable financial advisor speaking to a beginner investor.
-They asked: "${lastUserMessage}"
-Help them understand the logic behind the choice or market concept in the scenario below.
-
-Scenario: "${scenario}"
-Metrics: 💰 ${metrics.netWorth}, 💧 ${metrics.liquidity}, 🔥 Stress: ${metrics.stress}
-Explain in a calm and friendly tone, using simple terms and clear financial reasoning.
-Add teachable insights, but keep it brief.
-    `;
-  } else {
-    prompt = `
-You're a shady, sarcastic financial advisor in a financial simulation.
+  const prompt = `
+${characterIntro}
 
 Scenario: "${scenario}"
 Choices: A) ${choices[0]} B) ${choices[1]} C) ${choices[2]} D) ${choices[3]}
-Player chose: "${selected}"
-Metrics: 💰 ${metrics.netWorth}, 💧 ${metrics.liquidity}, 🔥 Stress: ${metrics.stress}, 🪙 Cash: ${metrics.cash}
+User selected: "${selected}"
+Stats: Net Worth = ${metrics.netWorth}, Liquidity = ${metrics.liquidity}, Stress = ${metrics.stress}, Cash = ${metrics.cash}
 
-Speak in character. Respond in 2–4 shady sentences with dry wit, occasional financial insight, and playful mockery.
-    `;
-  }
+Chat history:
+${chatHistory?.map((msg) => `${msg.role === "user" ? "User" : "Dealer"}: ${msg.content}`).join("\n")}
+
+Respond in-character with insight based on their choice. Add humor if shady, clarity if educational.`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: prompt }] }]
-    });
-    const reply = await result.response.text();
-
-    if (!reply) {
-      return res.status(500).send("Shady dealer froze up. Try again later.");
-    }
-
+    const result = await model.generateContent({ contents: [{ role: "user", parts: [{ text: prompt }] }] });
+    const reply = result?.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!reply) throw new Error("Empty reply");
     res.send(reply);
   } catch (err) {
     console.error("Gemini error:", err);
-    res.status(500).send("Shady dealer ain't talkin'. Try again later.");
+    res.status(500).send("The dealer ghosted you. Try again later.");
   }
 });
 
