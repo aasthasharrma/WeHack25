@@ -28,9 +28,10 @@ User selected: "${selected}"
 Stats: Net Worth = ${metrics.netWorth}, Liquidity = ${metrics.liquidity}, Stress = ${metrics.stress}, Cash = ${metrics.cash}
 
 Chat history:
-${chatHistory?.map((msg) => `${msg.role === "user" ? "User" : "Dealer"}: ${msg.content}`).join("\n")}
+${chatHistory?.map((msg) => `${msg.role === 'user' ? 'User' : 'Dealer'}: ${msg.content}`).join('\n')}
 
-Respond in-character with insight based on their choice. Add humor if shady, clarity if educational.`;
+If the user asks a question, expresses confusion, or types a calculation like "1+2", pause your character and answer it clearly and directly. Then resume your usual shady or educational tone.
+Respond in-character with insight based on their choice.`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
