@@ -980,5 +980,64 @@ input{
   background-color: #052512;
   color: white;
 }
+/* Predictions Section Styling */
+.predictions-section {
+  padding: 60px 0;
+  background-color: #f9f9f9;
+}
+
+.stock-predictions-container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.predictions-header {
+  background-color: #073C19;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.predictions-body {
+  padding: 30px;
+}
+
+.prediction-result {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.prediction-card {
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  color: white;
+}
+
+.up-prediction {
+  background-color: #28a745;
+}
+
+.down-prediction {
+  background-color: #dc3545;
+}
+
+.prediction-message {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.prediction-details {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.prediction-details p {
+  margin: 10px;
+}
 /*maku code end*/
 }

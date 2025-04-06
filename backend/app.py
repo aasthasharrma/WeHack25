@@ -6,9 +6,59 @@ import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend for server environment
 import pandas as pd
 
-app = Flask(__name__, 
+app = Flask(__name__,
             template_folder='../frontend/templates',
             static_folder='../frontend/static')
+
+def get_model_prediction(ticker):
+    """
+    Get the highest confidence prediction for the given ticker from the model CSV file.
+    
+    Args:
+        ticker (str): Stock ticker symbol
+    
+    Returns:
+        dict: Prediction details or None if no prediction found
+    """
+    try:
+        # Path to the CSV file containing model predictions
+        model_csv_path = f"improved_cnn_lstm_predictions.csv"
+        
+        if not os.path.exists(model_csv_path):
+            return None
+        
+        # Read model predictions CSV
+        model_df = pd.read_csv(model_csv_path)
+        
+        # Filter predictions for the given ticker
+        ticker_predictions = model_df[model_df['Ticker'] == ticker]
+        
+        if ticker_predictions.empty:
+            return None
+        
+        # Get the prediction with the highest confidence percentile
+        best_prediction = ticker_predictions.loc[ticker_predictions['Confidence_Percentile'].idxmax()]
+        
+
+        # Format the prediction message
+        if best_prediction['Prediction'].upper() == "UP":
+            direction = "UP"
+        elif best_prediction['Prediction'].upper() == "DOWN":
+            direction = "DOWN"
+        else:
+            direction = "FLAT"
+        message = f"The model predicts {ticker} to go {direction} with {best_prediction['Confidence_Percentile']}% confidence"
+        
+        return {
+            'message': message,
+            'date': best_prediction['Date'],
+            'direction': direction,
+            'confidence': best_prediction['Confidence'],
+            'confidence_percentile': best_prediction['Confidence_Percentile']
+        }
+    except Exception as e:
+        print(f"Error getting model prediction: {e}")
+        return None
 
 @app.route('/')
 def index():
@@ -28,6 +78,9 @@ def analyze():
     # Run Reddit analysis
     reddit_analyzer = RedditStockTrader(stock_ticker)
     reddit_results, reddit_recommendation = reddit_analyzer.run_analysis()
+    
+    # Get model prediction
+    model_prediction = get_model_prediction(stock_ticker)
     
     # Save results to CSV if available
     news_csv_path = None
@@ -75,6 +128,7 @@ def analyze():
         stock_ticker=stock_ticker,
         news_summary=news_summary,
         reddit_summary=reddit_summary,
+        model_prediction=model_prediction,
         news_table=news_table,
         reddit_table=reddit_table,
         news_img_path=f"results/{stock_ticker}_news_analysis.png" if os.path.exists(news_img_full_path) else None,

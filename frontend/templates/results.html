@@ -61,6 +61,32 @@
             </div>
         </div>
 
+        <!-- Prediction Section First -->
+        <!-- Prediction Section -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0">Prediction Summary</h3>
+            </div>
+            <div class="card-body">
+                {% if model_prediction %}
+                    <h4>Prediction: 
+                        <span class="{% if model_prediction.direction == 'UP' %}buy{% else %}sell{% endif %}">
+                            {{ model_prediction.direction }}
+                        </span>
+                    </h4>
+                    <p>{{ model_prediction.message }}</p>
+                    <p><strong>Confidence Percentile: </strong>{{ model_prediction.confidence_percentile }}%</p>
+                    <p><strong>Date: </strong>{{ model_prediction.date }}</p>
+                {% else %}
+                    <p>No prediction available for {{ stock_ticker }}.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
         <!-- Summary Cards -->
         <div class="row">
             <!-- News Analysis Summary -->
@@ -159,7 +185,6 @@
                 </div>
             </div>
         </div>
-        
         
         <div class="mt-4">
             <a href="/" class="btn btn-primary">Analyze Another Stock</a>
