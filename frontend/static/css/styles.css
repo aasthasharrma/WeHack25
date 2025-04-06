@@ -534,10 +534,10 @@ position: relative;
   z-index: 20;
   position: absolute;
   left: 50%;
-  top: 8%;
-  width: 900px;
-  height: 900px;
-
+  top: 5%;
+  width: 500px;
+  height: 500px;
+  display: block;
 }
 .cat img{
 display: block; /* Make the image a block element */
@@ -770,7 +770,9 @@ text-decoration: none;
 }
 
 .green{
-  display: none;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .vertical-line{

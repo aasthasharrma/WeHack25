@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dark Mode Finance</title>
+</head>
+<body style="background:#111; color:#fff; font-family:monospace; padding:2em;">
+
+  <h2>Scenario:</h2>
+  <p id="scenario">The crypto market crashes 60% overnight.</p>
+
+  <h3>Choose an action:</h3>
+  <button onclick="submitChoice('Buy the dip')">Buy the dip</button>
+  <button onclick="submitChoice('Sell everything')">Sell everything</button>
+  <button onclick="submitChoice('Convert to stablecoins')">Convert to stablecoins</button>
+  <button onclick="submitChoice('Hold your positions')">Hold your positions</button>
+
+  <div id="response" style="margin-top: 2em;"></div>
+
+  <script>
+    async function submitChoice(choice) {
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Talking to the shady dealer...";
+
+      const res = await fetch("/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scenario: "The crypto market crashes 60% overnight.",
+          choices: [
+            "Sell everything",
+            "Hold your positions",
+            "Buy the dip",
+            "Convert to stablecoins"
+          ],
+          selected: choice,
+          metrics: {
+            netWorth: "↓ 40%",
+            liquidity: "💧",
+            stress: "🔥🔥🔥",
+            cash: "$300"
+          }
+        })
+      });
+
+      const reply = await res.text();
+      responseDiv.innerText = "💬 " + reply;
+    }
+  </script>
+</body>
+</html>
