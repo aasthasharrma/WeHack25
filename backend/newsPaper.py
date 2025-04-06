@@ -7,7 +7,7 @@ import os
 class NewsStockTrader:
     def __init__(self, stock_ticker):
         # NewsAPI credentials
-        self.api_key = os.getenv('NEWS_API_KEY')  # Get your key from https://newsapi.org/
+        self.api_key = os.getenv('NEWS_API_KEY', 'c82d2de37f184901bde6471350fb45d5')  # Get your key from https://newsapi.org/
         
         # Stock ticker to analyze
         self.stock_ticker = stock_ticker

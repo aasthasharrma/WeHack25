@@ -80,7 +80,7 @@
                         <input type="checkbox" id="first">
                         <label for="first">See more</label>
                         <div class="content">
-                            <p>Welcome to BreadBot – your spot for making “Bread” on a budget. Whether you’re into crypto, the S&P, or just exploring investing, we’ve got you covered! </p>
+                            <p>Welcome to BreadBot – your spot for making "Bread" on a budget. Whether you're into crypto, the S&P, or just exploring investing, we've got you covered! </p>
                         </div>
                     </div>
                     
@@ -115,82 +115,94 @@
 <!--End of Maku Part-->
 
 <!-- Predictions Section -->
-<!-- Predictions Section -->
-
 <div id="Stock-Analysis" class="stock-analysis-section">
     
-        <!-- Recommendations Section -->
-        <div class="stock-analyzer-container">
-            <div class="analyzer-header">
-                <h2 class="mb-0">Analyze the Stock Market </h2>
-                <p class="mt-2 mb-0">Get insights from our machine learning model, news sources, and social media</p>
+    <!-- Recommendations Section -->
+    <div class="stock-analyzer-container">
+        <div class="analyzer-header">
+            <h2 class="mb-0">Analyze the Stock Market </h2>
+            <p class="mt-2 mb-0">Get insights from our machine learning model, news sources, and social media</p>
+        </div>
+        
+        <div class="analyzer-body">
+            <p class="lead">Enter a stock ticker symbol to see our model's prediction and analyze market sentiment from major financial news sources and Reddit communities.</p>
+            
+            <!-- Changed from form submission to JavaScript function call -->
+            <div class="mt-4">
+                <div class="mb-3">
+                    <label for="stock_ticker" class="form-label">Stock Ticker Symbol:</label>
+                    <input type="text" class="form-control form-control-lg" id="stock_ticker" 
+                           placeholder="e.g., AAPL, MSFT, TSLA" required>
+                    <div class="form-text">Enter the symbol exactly as it appears on financial websites.</div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="button" onclick="analyzeStock()" class="btn btn-stock-analyze btn-lg">Analyze Sentiment</button>
+                </div>
             </div>
             
-            <div class="analyzer-body">
-                <p class="lead">Enter a stock ticker symbol to see our model's prediction and analyze market sentiment from major financial news sources and Reddit communities.</p>
+            <!-- Loading spinner -->
+            <div id="loading-spinner" style="display: none; text-align: center; margin: 20px 0;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Analyzing stock data...</p>
+            </div>
+            
+            <!-- Analysis results container -->
+            <div id="analysis-results" style="display: none; margin-top: 20px;">
+                <div id="news-summary" class="analysis-card"></div>
+                <div id="reddit-summary" class="analysis-card"></div>
+                <div id="model-prediction" class="analysis-card"></div>
+            </div>
+            
+            <div class="info-cards">
+                <div class="info-card">
+                    <h4><i class="fas fa-newspaper me-2"></i>News Analysis</h4>
+                    <p>Our algorithm analyzes sentiment from major financial news sources including:</p>
+                    <ul>
+                        <li>Bloomberg</li>
+                        <li>Reuters</li>
+                        <li>CNBC</li>
+                        <li>Wall Street Journal</li>
+                        <li>MarketWatch</li>
+                    </ul>
+                </div>
                 
-                <form action="/analyze" method="post" class="mt-4">
-                    <div class="mb-3">
-                        <label for="stock_ticker" class="form-label">Stock Ticker Symbol:</label>
-                        <input type="text" class="form-control form-control-lg" id="stock_ticker" name="stock_ticker" 
-                               placeholder="e.g., AAPL, MSFT, TSLA" required>
-                        <div class="form-text">Enter the symbol exactly as it appears on financial websites.</div>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-stock-analyze btn-lg">Analyze Sentiment</button>
-                    </div>
-                </form>
+                <div class="info-card">
+                    <h4><i class="fab fa-reddit me-2"></i>Reddit Analysis</h4>
+                    <p>We scan popular stock-related subreddits including:</p>
+                    <ul>
+                        <li>r/wallstreetbets</li>
+                        <li>r/stocks</li>
+                        <li>r/investing</li>
+                        <li>r/stockmarket</li>
+                        <li>r/options</li>
+                    </ul>
+                </div>
                 
-                <div class="info-cards">
-                    <div class="info-card">
-                        <h4><i class="fas fa-newspaper me-2"></i>News Analysis</h4>
-                        <p>Our algorithm analyzes sentiment from major financial news sources including:</p>
-                        <ul>
-                            <li>Bloomberg</li>
-                            <li>Reuters</li>
-                            <li>CNBC</li>
-                            <li>Wall Street Journal</li>
-                            <li>MarketWatch</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="info-card">
-                        <h4><i class="fab fa-reddit me-2"></i>Reddit Analysis</h4>
-                        <p>We scan popular stock-related subreddits including:</p>
-                        <ul>
-                            <li>r/wallstreetbets</li>
-                            <li>r/stocks</li>
-                            <li>r/investing</li>
-                            <li>r/stockmarket</li>
-                            <li>r/options</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="info-card">
-                        <h4><i class="fas fa-chart-line me-2"></i>What You Get</h4>
-                        <p>Our analysis provides:</p>
-                        <ul>
-                            <li>BUY/SELL/HOLD recommendations</li>
-                            <li>Sentiment scores by source</li>
-                            <li>Visual data representation</li>
-                            <li>Exportable CSV reports</li>
-                            <li>Data from multiple sources in one place</li>
-                        </ul>
-                    </div>
-                    <div class="info-card">
-                        <h4><i class="fas fa-chart-line me-2"></i>About Our Predictions</h4>
-                        <p>Our prediction model analyzes historical data and provides:</p>
-                        <ul>
-                            <li>UP/DOWN price movement predictions</li>
-                            <li>Confidence scores</li>
-                            <li>Confidence percentile rankings</li>
-                            <li>Date of prediction</li>
-                        </ul>
-                    </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-chart-line me-2"></i>What You Get</h4>
+                    <p>Our analysis provides:</p>
+                    <ul>
+                        <li>BUY/SELL/HOLD recommendations</li>
+                        <li>Sentiment scores by source</li>
+                        <li>Visual data representation</li>
+                        <li>Exportable CSV reports</li>
+                        <li>Data from multiple sources in one place</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h4><i class="fas fa-chart-line me-2"></i>About Our Predictions</h4>
+                    <p>Our prediction model analyzes historical data and provides:</p>
+                    <ul>
+                        <li>UP/DOWN price movement predictions</li>
+                        <li>Confidence scores</li>
+                        <li>Confidence percentile rankings</li>
+                        <li>Date of prediction</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -249,8 +261,9 @@
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
   
       <!-- Request Loan Box -->
-      <div style="background: white; color: black; padding: 20px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px; max-height: 450px; overflow-y: auto; box-sizing: border-box;">
+      <div id="loan-form" style="background: white; color: black; padding: 20px; border-radius: 15px; flex: 1; min-width: 300px; max-width: 600px; max-height: 450px; overflow-y: auto; box-sizing: border-box;">
         <h2 style="text-align:center;">Request a Loan</h2>
+        <p style="text-align:center; color: #666;">Analyze a stock first to enable loan creation</p>
         <form onsubmit="createLoan(); return false;">
           <label for="loanAmount">Loan Amount (ETH):</label><br>
           <input type="number" id="loanAmount" step="0.00000001" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;"><br>
@@ -264,7 +277,7 @@
           <label for="collateralAmount">Collateral Amount (ETH):</label><br>
           <input type="number" id="collateralAmount" step="0.00000001" required style="width: 95%; padding: 8px; box-sizing: border-box; margin-bottom: 20px;"><br>
   
-          <button type="submit" style="width: 100%; padding: 10px; font-size: 16px;">Submit Loan Request</button>
+          <button id="create-loan-button" type="submit" style="width: 100%; padding: 10px; font-size: 16px;" disabled>Submit Loan Request</button>
         </form>
       </div>
   
@@ -387,6 +400,6 @@
 <!--End of Sanskriti's Part-->
 	    
 <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-<script defer src="app.js"></script>
+<script src="static/js/app.js"></script>
     </body>
 </html>

@@ -322,7 +322,10 @@ async function loadLoanRequests() {
 
 // Stock Analysis Functions
 async function analyzeStock() {
+    console.log("analyzeStock function called");
     const stockTicker = document.getElementById('stock_ticker').value;
+    console.log("Stock ticker:", stockTicker);
+    
     if (!stockTicker) {
         alert('Please enter a stock ticker');
         return;
@@ -330,9 +333,11 @@ async function analyzeStock() {
 
     try {
         // Show loading state
+        console.log("Showing loading spinner");
         document.getElementById('analysis-results').style.display = 'none';
         document.getElementById('loading-spinner').style.display = 'block';
 
+        console.log("Sending request to backend");
         const response = await fetch('http://localhost:5000/api/analyze', {
             method: 'POST',
             headers: {
@@ -341,11 +346,13 @@ async function analyzeStock() {
             body: JSON.stringify({ stock_ticker: stockTicker })
         });
 
+        console.log("Response received:", response.status);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
+        console.log("Data received:", data);
         displayResults(data);
         
         // Hide loading state and show results
@@ -359,9 +366,14 @@ async function analyzeStock() {
 }
 
 function displayResults(data) {
+    console.log("displayResults function called with data:", data);
+    
     // Update news summary
     const newsSummary = document.getElementById('news-summary');
+    console.log("newsSummary element:", newsSummary);
+    
     if (data.news_summary !== "Insufficient data") {
+        console.log("Processing news summary data");
         newsSummary.innerHTML = `
             <h3>News Analysis</h3>
             <p>Recommendation: ${data.news_summary.recommendation}</p>
@@ -373,29 +385,33 @@ function displayResults(data) {
             </ul>
         `;
     } else {
+        console.log("Insufficient news data");
         newsSummary.innerHTML = '<p>Insufficient news data available</p>';
     }
 
     // Update Reddit summary
     const redditSummary = document.getElementById('reddit-summary');
+    console.log("redditSummary element:", redditSummary);
+    
     if (data.reddit_summary !== "Insufficient data") {
+        console.log("Processing Reddit summary data");
+        // Format the recommendation with line breaks
+        const formattedRecommendation = data.reddit_summary.recommendation.replace(/\n/g, '<br>');
         redditSummary.innerHTML = `
             <h3>Reddit Analysis</h3>
-            <p>Recommendation: ${data.reddit_summary.recommendation}</p>
-            <h4>Subreddits:</h4>
-            <ul>
-                ${Object.entries(data.reddit_summary.subreddits).map(([subreddit, summary]) => 
-                    `<li><strong>r/${subreddit}:</strong> ${summary}</li>`
-                ).join('')}
-            </ul>
+            <p>${formattedRecommendation}</p>
         `;
     } else {
+        console.log("Insufficient Reddit data");
         redditSummary.innerHTML = '<p>Insufficient Reddit data available</p>';
     }
 
     // Update model prediction
     const modelPrediction = document.getElementById('model-prediction');
+    console.log("modelPrediction element:", modelPrediction);
+    
     if (data.model_prediction) {
+        console.log("Processing model prediction data");
         modelPrediction.innerHTML = `
             <h3>Model Prediction</h3>
             <p>${data.model_prediction.message}</p>
@@ -403,6 +419,7 @@ function displayResults(data) {
             <p>Confidence: ${data.model_prediction.confidence_percentile}%</p>
         `;
     } else {
+        console.log("No model prediction available");
         modelPrediction.innerHTML = '<p>No model prediction available</p>';
     }
 
@@ -411,14 +428,21 @@ function displayResults(data) {
 }
 
 function updateLoanCreationAvailability(data) {
+    console.log("updateLoanCreationAvailability function called with data:", data);
+    
     const createLoanButton = document.getElementById('create-loan-button');
     const loanForm = document.getElementById('loan-form');
     
+    console.log("createLoanButton element:", createLoanButton);
+    console.log("loanForm element:", loanForm);
+    
     if (data.model_prediction && data.model_prediction.confidence_percentile >= 70) {
+        console.log("Enabling loan creation button");
         createLoanButton.disabled = false;
         loanForm.style.opacity = '1';
         createLoanButton.title = 'Create a loan based on this analysis';
     } else {
+        console.log("Disabling loan creation button");
         createLoanButton.disabled = true;
         loanForm.style.opacity = '0.5';
         createLoanButton.title = 'Analysis confidence too low for loan creation';

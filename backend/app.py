@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, jsonify
+from flask_cors import CORS
 import os
 from newsPaper import NewsStockTrader
 from sentiment import RedditStockTrader
@@ -6,9 +7,16 @@ import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend for server environment
 import pandas as pd
 from flask import send_from_directory
+import json
+from datetime import datetime
 
 
 app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
+CORS(app)  # Enable CORS for all routes
+
+# Create a directory for storing analysis data
+ANALYSIS_DATA_DIR = 'analysis_data'
+os.makedirs(ANALYSIS_DATA_DIR, exist_ok=True)
 
 
 
@@ -159,6 +167,63 @@ def download_file(filename):
     # Adjust path to include frontend directory
     full_path = f"frontend/{filename}" if filename.startswith('static/') else filename
     return send_file(full_path, as_attachment=True)
+
+@app.route('/api/analyze', methods=['POST'])
+def api_analyze():
+    data = request.get_json()
+    stock_ticker = data.get('stock_ticker', '').upper()
+    
+    if not stock_ticker:
+        return jsonify({'error': 'Stock ticker is required'}), 400
+    
+    # Create directories for results if they don't exist
+    os.makedirs('frontend/static/results', exist_ok=True)
+    
+    # Run news analysis
+    news_analyzer = NewsStockTrader(stock_ticker)
+    news_results, news_recommendation = news_analyzer.run_analysis()
+    
+    # Run Reddit analysis
+    reddit_analyzer = RedditStockTrader(stock_ticker)
+    reddit_results, reddit_recommendation = reddit_analyzer.run_analysis()
+    
+    # Get model prediction
+    model_prediction = get_model_prediction(stock_ticker)
+    
+    # Prepare response data
+    response_data = {
+        'stock_ticker': stock_ticker,
+        'timestamp': datetime.now().isoformat(),
+        'news_summary': {
+            'recommendation': news_recommendation,
+            'sources': news_analyzer.source_summaries
+        } if isinstance(news_results, pd.DataFrame) and not news_results.empty else "Insufficient data",
+        'reddit_summary': {
+            'recommendation': reddit_recommendation,
+            'subreddits': reddit_analyzer.subreddit_summaries
+        } if isinstance(reddit_results, pd.DataFrame) and not reddit_results.empty else "Insufficient data",
+        'model_prediction': model_prediction
+    }
+    
+    # Store analysis data
+    analysis_file = os.path.join(ANALYSIS_DATA_DIR, f'{stock_ticker}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
+    with open(analysis_file, 'w') as f:
+        json.dump(response_data, f, indent=2)
+    
+    return jsonify(response_data)
+
+@app.route('/api/analysis/<ticker>', methods=['GET'])
+def get_analysis_history(ticker):
+    """Get historical analysis data for a ticker"""
+    ticker = ticker.upper()
+    analyses = []
+    
+    for filename in os.listdir(ANALYSIS_DATA_DIR):
+        if filename.startswith(ticker):
+            with open(os.path.join(ANALYSIS_DATA_DIR, filename), 'r') as f:
+                analyses.append(json.load(f))
+    
+    return jsonify(analyses)
 
 if __name__ == '__main__':
     app.run(debug=True)

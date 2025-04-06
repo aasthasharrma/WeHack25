@@ -1,0 +1,57 @@
+{
+  "stock_ticker": "AAPL",
+  "timestamp": "2025-04-05T23:56:06.721301",
+  "news_summary": "Insufficient data",
+  "reddit_summary": {
+    "recommendation": "BUY",
+    "subreddits": {
+      "wallstreetbets": {
+        "Posts": 8,
+        "Buy": 5,
+        "Sell": 1,
+        "Hold": 2,
+        "Avg_Sentiment": 0.208,
+        "Decision": "BUY"
+      },
+      "stocks": {
+        "Posts": 8,
+        "Buy": 4,
+        "Sell": 1,
+        "Hold": 3,
+        "Avg_Sentiment": 0.089,
+        "Decision": "HOLD"
+      },
+      "investing": {
+        "Posts": 4,
+        "Buy": 3,
+        "Sell": 0,
+        "Hold": 1,
+        "Avg_Sentiment": 0.366,
+        "Decision": "BUY"
+      },
+      "stockmarket": {
+        "Posts": 25,
+        "Buy": 6,
+        "Sell": 10,
+        "Hold": 9,
+        "Avg_Sentiment": -0.052,
+        "Decision": "HOLD"
+      },
+      "options": {
+        "Posts": 5,
+        "Buy": 4,
+        "Sell": 0,
+        "Hold": 1,
+        "Avg_Sentiment": 0.437,
+        "Decision": "BUY"
+      }
+    }
+  },
+  "model_prediction": {
+    "message": "The model predicts AAPL to go FLAT with 88.63636363636364% confidence",
+    "date": "2025-04-02",
+    "direction": "FLAT",
+    "confidence": 0.38192484,
+    "confidence_percentile": 88.63636363636364
+  }
+}
