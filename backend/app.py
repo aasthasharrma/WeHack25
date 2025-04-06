@@ -5,10 +5,12 @@ from sentiment import RedditStockTrader
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend for server environment
 import pandas as pd
+from flask import send_from_directory
 
-app = Flask(__name__,
-            template_folder='../frontend/templates',
-            static_folder='../frontend/static')
+
+app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
+
+
 
 def get_model_prediction(ticker):
     """
@@ -94,8 +96,17 @@ def analyze():
         reddit_results.to_csv(reddit_csv_path, index=False)
     
     # Full paths for checking if files exist
-    news_img_full_path = f"frontend/static/results/{stock_ticker}_news_analysis.png"
-    reddit_img_full_path = f"frontend/static/results/{stock_ticker}_analysis.png"
+    #news_img_full_path = f"static/results/{stock_ticker}_news_analysis.png"
+    
+    news_img_path = f"results/{stock_ticker}_news_analysis.png"
+    reddit_img_path = f"results/{stock_ticker}_analysis.png"
+    
+    # Check for existence based on full path
+    news_img_exists = os.path.exists(f"frontend/static/{news_img_path}")
+    reddit_img_exists = os.path.exists(f"frontend/static/{reddit_img_path}")
+
+    #backend/static/results/AAPL_analysis.png
+    
     
     # Prepare the results for the template
     news_summary = None
@@ -131,12 +142,18 @@ def analyze():
         model_prediction=model_prediction,
         news_table=news_table,
         reddit_table=reddit_table,
-        news_img_path=f"results/{stock_ticker}_news_analysis.png" if os.path.exists(news_img_full_path) else None,
-        reddit_img_path=f"results/{stock_ticker}_analysis.png" if os.path.exists(reddit_img_full_path) else None,
-        news_csv_path=f"results/{stock_ticker}_news_analysis.csv" if news_csv_path else None,
-        reddit_csv_path=f"results/{stock_ticker}_reddit_analysis.csv" if reddit_csv_path else None
+        news_img_path=news_img_path if news_img_exists else None,
+        reddit_img_path=reddit_img_path if reddit_img_exists else None,
+        news_csv_path=news_csv_path if news_csv_path else None,
+        reddit_csv_path=reddit_csv_path if reddit_csv_path else None
     )
-
+@app.route('/static/results/<path:filename>')
+def serve_results_image(filename):
+    results_path = os.path.join('../backend/static/results', filename)
+    if os.path.exists(results_path):
+        return send_from_directory('../backend/static/results', filename)
+    else:
+        return "File not found", 404
 @app.route('/download/<path:filename>')
 def download_file(filename):
     # Adjust path to include frontend directory

@@ -121,9 +121,10 @@
                                 </div>
                             {% endfor %}
                             
-                            {% if news_img_path %}
+                            {% if news_img_full_path %}
                                 <div class="mt-3">
-                                    <img src="{{ news_img_path }}" class="img-fluid" alt="News sentiment analysis chart">
+                                    <img src="{{ url_for('static', filename=news_img_full_path) }}">
+
                                 </div>
                             {% endif %}
                             
@@ -169,9 +170,10 @@
                                 </div>
                             {% endfor %}
                             
-                            {% if reddit_img_path %}
+                            {% if reddit_img_full_path %}
                                 <div class="mt-3">
-                                    <img src="{{ reddit_img_path }}" class="img-fluid" alt="Reddit sentiment analysis chart">
+                                    <img src="{{ url_for('static', filename=reddit_img_path) }}" alt="{{ stock_ticker }} Reddit Analysis">
+
                                 </div>
                             {% endif %}
                             
