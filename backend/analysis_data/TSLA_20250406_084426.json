@@ -1,0 +1,57 @@
+{
+  "stock_ticker": "TSLA",
+  "timestamp": "2025-04-06T08:44:26.747114",
+  "news_summary": "Insufficient data",
+  "reddit_summary": {
+    "recommendation": "Recommendation: HOLD\nSubreddit Breakdown:\nr/wallstreetbets: 14 posts, Sentiment: 0.117, Decision: HOLD\nr/stocks: 2 posts, Sentiment: 0.012, Decision: HOLD\nr/investing: 0 posts, Sentiment: 0.000, Decision: HOLD\nr/stockmarket: 3 posts, Sentiment: -0.079, Decision: HOLD\nr/options: 3 posts, Sentiment: -0.249, Decision: SELL",
+    "subreddits": {
+      "wallstreetbets": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0.117,
+        "Posts": 14,
+        "Buy": 5,
+        "Sell": 2,
+        "Hold": 7
+      },
+      "stocks": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0.012,
+        "Posts": 2,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 2
+      },
+      "investing": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0,
+        "Posts": 0,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 0
+      },
+      "stockmarket": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": -0.079,
+        "Posts": 3,
+        "Buy": 0,
+        "Sell": 1,
+        "Hold": 2
+      },
+      "options": {
+        "Decision": "SELL",
+        "Avg_Sentiment": -0.249,
+        "Posts": 3,
+        "Buy": 0,
+        "Sell": 2,
+        "Hold": 1
+      }
+    }
+  },
+  "model_prediction": {
+    "message": "The model predicts TSLA to go FLAT with 96.64502164502164% confidence",
+    "date": "2025-04-02",
+    "direction": "FLAT",
+    "confidence": 0.38223767,
+    "confidence_percentile": 96.64502164502164
+  }
+}

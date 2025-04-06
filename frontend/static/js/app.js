@@ -372,38 +372,107 @@ function displayResults(data) {
     const newsSummary = document.getElementById('news-summary');
     console.log("newsSummary element:", newsSummary);
     
-    if (data.news_summary !== "Insufficient data") {
-        console.log("Processing news summary data");
+    if (data.news_summary === "Insufficient data") {
         newsSummary.innerHTML = `
             <h3>News Analysis</h3>
-            <p>Recommendation: ${data.news_summary.recommendation}</p>
-            <h4>Sources:</h4>
-            <ul>
-                ${Object.entries(data.news_summary.sources).map(([source, summary]) => 
-                    `<li><strong>${source}:</strong> ${summary}</li>`
-                ).join('')}
-            </ul>
+            <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+            <p>No recent news articles found for this stock. Please try again later or check a different stock ticker.</p>
         `;
     } else {
-        console.log("Insufficient news data");
-        newsSummary.innerHTML = '<p>Insufficient news data available</p>';
+        try {
+            console.log("Processing news summary data");
+            
+            // Format the news analysis according to the requested format
+            let newsHtml = `<h3>News Analysis</h3>`;
+            newsHtml += `<p><strong>Stock:</strong> ${data.stock_ticker}</p>`;
+            
+            // Count total articles
+            let totalArticles = 0;
+            if (data.news_summary && data.news_summary.sources) {
+                Object.values(data.news_summary.sources).forEach(source => {
+                    totalArticles += source.Articles || 0;
+                });
+            }
+            newsHtml += `<p><strong>Total articles analyzed:</strong> ${totalArticles}</p>`;
+            
+            // Add source breakdown
+            newsHtml += `<p><strong>Source Breakdown:</strong></p>`;
+            if (data.news_summary && data.news_summary.sources) {
+                Object.entries(data.news_summary.sources).forEach(([source, summary]) => {
+                    if (summary.Articles > 0) {
+                        newsHtml += `<p>  ${source}: ${summary.Articles} articles, Sentiment: ${summary.Avg_Sentiment}, Decision: ${summary.Decision}</p>`;
+                    }
+                });
+            }
+            
+            // Add overall recommendation
+            if (data.news_summary && data.news_summary.recommendation) {
+                newsHtml += `<p><strong>Overall Recommendation:</strong> ${data.news_summary.recommendation}</p>`;
+            }
+            
+            newsSummary.innerHTML = newsHtml;
+        } catch (error) {
+            console.error('Error displaying results:', error);
+            newsSummary.innerHTML = `
+                <h3>News Analysis</h3>
+                <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+                <p>Error processing news data. Please try again later.</p>
+            `;
+        }
     }
 
     // Update Reddit summary
     const redditSummary = document.getElementById('reddit-summary');
     console.log("redditSummary element:", redditSummary);
     
-    if (data.reddit_summary !== "Insufficient data") {
-        console.log("Processing Reddit summary data");
-        // Format the recommendation with line breaks
-        const formattedRecommendation = data.reddit_summary.recommendation.replace(/\n/g, '<br>');
+    if (data.reddit_summary === "Insufficient data") {
+        console.log("Insufficient Reddit data");
         redditSummary.innerHTML = `
             <h3>Reddit Analysis</h3>
-            <p>${formattedRecommendation}</p>
+            <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+            <p>No recent Reddit discussions found for this stock. Please try again later or check a different stock ticker.</p>
         `;
     } else {
-        console.log("Insufficient Reddit data");
-        redditSummary.innerHTML = '<p>Insufficient Reddit data available</p>';
+        try {
+            console.log("Processing Reddit summary data:", data.reddit_summary);
+            
+            // Format the Reddit analysis
+            let redditHtml = `<h3>Reddit Analysis</h3>`;
+            redditHtml += `<p><strong>Stock:</strong> ${data.stock_ticker}</p>`;
+            
+            // Count total posts
+            let totalPosts = 0;
+            if (data.reddit_summary && data.reddit_summary.subreddits) {
+                Object.values(data.reddit_summary.subreddits).forEach(subreddit => {
+                    totalPosts += subreddit.Posts || 0;
+                });
+            }
+            redditHtml += `<p><strong>Total posts analyzed:</strong> ${totalPosts}</p>`;
+            
+            // Add subreddit breakdown
+            redditHtml += `<p><strong>Subreddit Breakdown:</strong></p>`;
+            if (data.reddit_summary && data.reddit_summary.subreddits) {
+                Object.entries(data.reddit_summary.subreddits).forEach(([subreddit, summary]) => {
+                    if (summary.Posts > 0) {
+                        redditHtml += `<p>  r/${subreddit}: ${summary.Posts} posts, Sentiment: ${summary.Avg_Sentiment}, Decision: ${summary.Decision}</p>`;
+                    }
+                });
+            }
+            
+            // Add overall recommendation
+            if (data.reddit_summary && data.reddit_summary.recommendation) {
+                redditHtml += `<p><strong>Overall Recommendation:</strong> ${data.reddit_summary.recommendation}</p>`;
+            }
+            
+            redditSummary.innerHTML = redditHtml;
+        } catch (error) {
+            console.error('Error displaying Reddit results:', error);
+            redditSummary.innerHTML = `
+                <h3>Reddit Analysis</h3>
+                <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+                <p>Error processing Reddit data. Please try again later.</p>
+            `;
+        }
     }
 
     // Update model prediction
@@ -411,16 +480,42 @@ function displayResults(data) {
     console.log("modelPrediction element:", modelPrediction);
     
     if (data.model_prediction) {
-        console.log("Processing model prediction data");
-        modelPrediction.innerHTML = `
-            <h3>Model Prediction</h3>
-            <p>${data.model_prediction.message}</p>
-            <p>Date: ${data.model_prediction.date}</p>
-            <p>Confidence: ${data.model_prediction.confidence_percentile}%</p>
-        `;
+        console.log("Processing model prediction data:", data.model_prediction);
+        
+        // Check if model_prediction is a string (error message) or an object
+        if (typeof data.model_prediction === 'string') {
+            modelPrediction.innerHTML = `
+                <h3>Model Prediction</h3>
+                <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+                <p>${data.model_prediction}</p>
+            `;
+        } else {
+            let predictionHtml = `
+                <h3>Model Prediction</h3>
+                <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+                <p>${data.model_prediction.message}</p>
+                <p><strong>Date:</strong> ${data.model_prediction.date}</p>
+                <p><strong>Confidence:</strong> ${data.model_prediction.confidence_percentile.toFixed(2)}%</p>
+            `;
+            
+            // Add visual indicator based on direction
+            if (data.model_prediction.direction === "UP") {
+                predictionHtml += `<p class="prediction-up">📈 UP</p>`;
+            } else if (data.model_prediction.direction === "DOWN") {
+                predictionHtml += `<p class="prediction-down">📉 DOWN</p>`;
+            } else {
+                predictionHtml += `<p class="prediction-flat">➡️ FLAT</p>`;
+            }
+            
+            modelPrediction.innerHTML = predictionHtml;
+        }
     } else {
         console.log("No model prediction available");
-        modelPrediction.innerHTML = '<p>No model prediction available</p>';
+        modelPrediction.innerHTML = `
+            <h3>Model Prediction</h3>
+            <p><strong>Stock:</strong> ${data.stock_ticker}</p>
+            <p>No model prediction available for this stock at this time.</p>
+        `;
     }
 
     // Enable/disable loan creation based on analysis

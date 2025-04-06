@@ -1,0 +1,57 @@
+{
+  "stock_ticker": "GOOG",
+  "timestamp": "2025-04-06T08:44:21.802483",
+  "news_summary": "Insufficient data",
+  "reddit_summary": {
+    "recommendation": "Recommendation: HOLD\nSubreddit Breakdown:\nr/wallstreetbets: 2 posts, Sentiment: 0.117, Decision: HOLD\nr/stocks: 0 posts, Sentiment: 0.000, Decision: HOLD\nr/investing: 0 posts, Sentiment: 0.000, Decision: HOLD\nr/stockmarket: 0 posts, Sentiment: 0.000, Decision: HOLD\nr/options: 1 posts, Sentiment: 0.050, Decision: HOLD",
+    "subreddits": {
+      "wallstreetbets": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0.117,
+        "Posts": 2,
+        "Buy": 1,
+        "Sell": 1,
+        "Hold": 0
+      },
+      "stocks": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0,
+        "Posts": 0,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 0
+      },
+      "investing": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0,
+        "Posts": 0,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 0
+      },
+      "stockmarket": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0,
+        "Posts": 0,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 0
+      },
+      "options": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0.05,
+        "Posts": 1,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 1
+      }
+    }
+  },
+  "model_prediction": {
+    "message": "The model predicts GOOG to go FLAT with 75.16233766233766% confidence",
+    "date": "2025-04-02",
+    "direction": "FLAT",
+    "confidence": 0.38032565,
+    "confidence_percentile": 75.16233766233766
+  }
+}

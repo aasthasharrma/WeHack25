@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
-        <title>CS Club</title>
+        <title>Bread Bot</title>
         <link rel ="stylesheet" href="static/css/styles.css" /> 
         <!--font and socials logo links-->
         <link rel="preconnect" href="https://rsms.me/">
@@ -37,17 +37,15 @@
         </div>
         <!--banner/navigation bar-->
         <div class="banner">
-            <div class="circle">
-                <span>CS</span>
-              </div>
+            
             <nav class="bannernav">
-                   <!-- <img src="logo.PNG" class="logo">-->
+                   
                 <ul class="bannerul">
                     <li class="bannerli"><a href="#Home" >Home</a></li>
                     <li class="bannerli"><a href="#Aboutus">About us</a></li>
                     <li class="bannerli"><a href="#Recommendations">Recommendations</a></li>
                     <li class="bannerli"><a href="#Lend Crypto">Lend Crypto</a></li>
-                    <li class="bannerli"><a href="#ContactUs">Contact us</a></li>
+                    <li class="bannerli"><a href="#ContactUs">Still Confused?</a></li>
                 </ul>
             </nav>
         </div>
@@ -120,7 +118,7 @@
     <!-- Recommendations Section -->
     <div class="stock-analyzer-container">
         <div class="analyzer-header">
-            <h2 class="mb-0">Analyze the Stock Market </h2>
+            <h2 class="mb-0"> Throw in a ticker </h2>
             <p class="mt-2 mb-0">Get insights from our machine learning model, news sources, and social media</p>
         </div>
         
@@ -405,5 +403,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 <script src="static/js/app.js"></script>
+<script>
+  // Add scroll event listener to show/hide quiz button
+  window.addEventListener('scroll', function() {
+    const quizButton = document.querySelector('.quiz-button-container');
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Show button when user is near the bottom (within 100px)
+    if (documentHeight - scrollPosition < 100) {
+      quizButton.classList.add('visible');
+    } else {
+      quizButton.classList.remove('visible');
+    }
+  });
+</script>
     </body>
 </html>

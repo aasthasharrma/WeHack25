@@ -1,0 +1,95 @@
+{
+  "stock_ticker": "APPLE",
+  "timestamp": "2025-04-06T08:40:07.984552",
+  "news_summary": {
+    "recommendation": "BUY",
+    "sources": {
+      "bloomberg": {
+        "Articles": 1,
+        "Buy": 0,
+        "Sell": 1,
+        "Hold": 0,
+        "Avg_Sentiment": -0.178,
+        "Decision": "SELL"
+      },
+      "abc-news": {
+        "Articles": 9,
+        "Buy": 3,
+        "Sell": 3,
+        "Hold": 3,
+        "Avg_Sentiment": 0.103,
+        "Decision": "HOLD"
+      },
+      "wired": {
+        "Articles": 12,
+        "Buy": 7,
+        "Sell": 1,
+        "Hold": 4,
+        "Avg_Sentiment": 0.259,
+        "Decision": "BUY"
+      },
+      "bbc-news": {
+        "Articles": 3,
+        "Buy": 1,
+        "Sell": 1,
+        "Hold": 1,
+        "Avg_Sentiment": 0.019,
+        "Decision": "HOLD"
+      },
+      "the-wall-street-journal": {
+        "Articles": 1,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 1,
+        "Avg_Sentiment": 0.0,
+        "Decision": "HOLD"
+      }
+    }
+  },
+  "reddit_summary": {
+    "recommendation": "Recommendation: HOLD\nSubreddit Breakdown:\nr/wallstreetbets: 3 posts, Sentiment: 0.250, Decision: BUY\nr/stocks: 3 posts, Sentiment: -0.169, Decision: SELL\nr/investing: 1 posts, Sentiment: -0.190, Decision: SELL\nr/stockmarket: 5 posts, Sentiment: -0.117, Decision: SELL\nr/options: 0 posts, Sentiment: 0.000, Decision: HOLD",
+    "subreddits": {
+      "wallstreetbets": {
+        "Decision": "BUY",
+        "Avg_Sentiment": 0.25,
+        "Posts": 3,
+        "Buy": 2,
+        "Sell": 0,
+        "Hold": 1
+      },
+      "stocks": {
+        "Decision": "SELL",
+        "Avg_Sentiment": -0.169,
+        "Posts": 3,
+        "Buy": 0,
+        "Sell": 1,
+        "Hold": 2
+      },
+      "investing": {
+        "Decision": "SELL",
+        "Avg_Sentiment": -0.19,
+        "Posts": 1,
+        "Buy": 0,
+        "Sell": 1,
+        "Hold": 0
+      },
+      "stockmarket": {
+        "Decision": "SELL",
+        "Avg_Sentiment": -0.117,
+        "Posts": 5,
+        "Buy": 0,
+        "Sell": 2,
+        "Hold": 3
+      },
+      "options": {
+        "Decision": "HOLD",
+        "Avg_Sentiment": 0,
+        "Posts": 0,
+        "Buy": 0,
+        "Sell": 0,
+        "Hold": 0
+      }
+    }
+  },
+  "model_prediction": null
+}

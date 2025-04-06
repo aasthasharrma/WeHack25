@@ -374,19 +374,19 @@ margin-top: -4px;
 }
 
 /*logo image position and design*/
-/*
 .logo {
-position: absolute;
-border-radius: 50%;
-overflow: hidden;
-margin-left: 94%;
-margin-top: -10px;
-width: 60px;
-height: 60px;
-z-index: 50;
-object-fit:cover;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 94%;
+  margin-top: -10px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
 }
-*/
 
 .circle {
 left: 95%;
@@ -1249,4 +1249,86 @@ border-radius: 10px;
     .stock-analyzer-container {
         padding: 20px;
     }
+}
+
+.quiz-button-container {
+  position: fixed;
+  bottom: -100px; /* Start hidden below the viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  transition: bottom 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show button when scrolled to bottom */
+.quiz-button-container.visible {
+  bottom: -20px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quiz-button-container.visible:hover {
+  bottom: 0;
+}
+
+.quiz-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: #197538;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  background-color: #1a853f;
+}
+
+/* Prediction styles */
+.prediction-up {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.prediction-down {
+  color: #F44336;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: rgba(244, 67, 54, 0.1);
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.prediction-flat {
+  color: #FFC107;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: rgba(255, 193, 7, 0.1);
+  border-radius: 5px;
+  display: inline-block;
+}
+
+#model-prediction {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #2196F3;
 }

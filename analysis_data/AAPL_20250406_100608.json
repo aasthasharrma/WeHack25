@@ -1,0 +1,36 @@
+{
+  "stock_ticker": "AAPL",
+  "timestamp": "2025-04-06T10:06:08.836209",
+  "news_summary": "Insufficient data",
+  "reddit_summary": {
+    "recommendation": "BUY",
+    "subreddits": {
+      "wallstreetbets": {
+        "Posts": 8,
+        "Avg_Sentiment": 0.208,
+        "Decision": "BUY"
+      },
+      "stocks": {
+        "Posts": 8,
+        "Avg_Sentiment": 0.089,
+        "Decision": "HOLD"
+      },
+      "investing": {
+        "Posts": 4,
+        "Avg_Sentiment": 0.366,
+        "Decision": "BUY"
+      },
+      "stockmarket": {
+        "Posts": 25,
+        "Avg_Sentiment": -0.065,
+        "Decision": "HOLD"
+      },
+      "options": {
+        "Posts": 5,
+        "Avg_Sentiment": 0.437,
+        "Decision": "BUY"
+      }
+    }
+  },
+  "model_prediction": null
+}

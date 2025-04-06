@@ -32,9 +32,10 @@ def get_model_prediction(ticker):
     """
     try:
         # Path to the CSV file containing model predictions
-        model_csv_path = f"improved_cnn_lstm_predictions.csv"
+        model_csv_path = "backend/improved_cnn_lstm_predictions.csv"
         
         if not os.path.exists(model_csv_path):
+            print(f"Model prediction file not found: {model_csv_path}")
             return None
         
         # Read model predictions CSV
@@ -44,27 +45,26 @@ def get_model_prediction(ticker):
         ticker_predictions = model_df[model_df['Ticker'] == ticker]
         
         if ticker_predictions.empty:
+            print(f"No predictions found for ticker: {ticker}")
             return None
         
         # Get the prediction with the highest confidence percentile
         best_prediction = ticker_predictions.loc[ticker_predictions['Confidence_Percentile'].idxmax()]
         
-
         # Format the prediction message
-        if best_prediction['Prediction'].upper() == "UP":
-            direction = "UP"
-        elif best_prediction['Prediction'].upper() == "DOWN":
-            direction = "DOWN"
-        else:
-            direction = "FLAT"
-        message = f"The model predicts {ticker} to go {direction} with {best_prediction['Confidence_Percentile']}% confidence"
+        direction = best_prediction['Prediction'].upper()
+        confidence_percentile = best_prediction['Confidence_Percentile']
+        
+        message = f"The model predicts {ticker} to go {direction} with {confidence_percentile:.2f}% confidence"
+        
+        print(f"Model prediction for {ticker}: {message}")
         
         return {
             'message': message,
             'date': best_prediction['Date'],
             'direction': direction,
             'confidence': best_prediction['Confidence'],
-            'confidence_percentile': best_prediction['Confidence_Percentile']
+            'confidence_percentile': confidence_percentile
         }
     except Exception as e:
         print(f"Error getting model prediction: {e}")
@@ -170,47 +170,96 @@ def download_file(filename):
 
 @app.route('/api/analyze', methods=['POST'])
 def api_analyze():
-    data = request.get_json()
-    stock_ticker = data.get('stock_ticker', '').upper()
-    
-    if not stock_ticker:
-        return jsonify({'error': 'Stock ticker is required'}), 400
-    
-    # Create directories for results if they don't exist
-    os.makedirs('frontend/static/results', exist_ok=True)
-    
-    # Run news analysis
-    news_analyzer = NewsStockTrader(stock_ticker)
-    news_results, news_recommendation = news_analyzer.run_analysis()
-    
-    # Run Reddit analysis
-    reddit_analyzer = RedditStockTrader(stock_ticker)
-    reddit_results, reddit_recommendation = reddit_analyzer.run_analysis()
-    
-    # Get model prediction
-    model_prediction = get_model_prediction(stock_ticker)
-    
-    # Prepare response data
-    response_data = {
-        'stock_ticker': stock_ticker,
-        'timestamp': datetime.now().isoformat(),
-        'news_summary': {
-            'recommendation': news_recommendation,
-            'sources': news_analyzer.source_summaries
-        } if isinstance(news_results, pd.DataFrame) and not news_results.empty else "Insufficient data",
-        'reddit_summary': {
-            'recommendation': reddit_recommendation,
-            'subreddits': reddit_analyzer.subreddit_summaries
-        } if isinstance(reddit_results, pd.DataFrame) and not reddit_results.empty else "Insufficient data",
-        'model_prediction': model_prediction
-    }
-    
-    # Store analysis data
-    analysis_file = os.path.join(ANALYSIS_DATA_DIR, f'{stock_ticker}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
-    with open(analysis_file, 'w') as f:
-        json.dump(response_data, f, indent=2)
-    
-    return jsonify(response_data)
+    try:
+        data = request.get_json()
+        stock_ticker = data.get('stock_ticker', '').upper()
+        
+        if not stock_ticker:
+            return jsonify({'error': 'Stock ticker is required'}), 400
+        
+        # Create directories for results if they don't exist
+        os.makedirs('frontend/static/results', exist_ok=True)
+        
+        # Run news analysis
+        try:
+            news_analyzer = NewsStockTrader(stock_ticker)
+            news_results, news_recommendation = news_analyzer.run_analysis()
+        except Exception as e:
+            print(f"Error in news analysis: {str(e)}")
+            news_results = None
+            news_recommendation = "Unable to analyze news at this time"
+        
+        # Run Reddit analysis
+        try:
+            reddit_analyzer = RedditStockTrader(stock_ticker)
+            reddit_results, reddit_recommendation = reddit_analyzer.run_analysis()
+            print(f"Reddit analysis completed. Results: {reddit_results is not None}, Recommendation: {reddit_recommendation}")
+            print(f"Reddit subreddit summaries: {reddit_analyzer.subreddit_summaries}")
+        except Exception as e:
+            print(f"Error in Reddit analysis: {str(e)}")
+            reddit_results = None
+            reddit_recommendation = "Unable to analyze Reddit at this time"
+        
+        # Get model prediction
+        try:
+            model_prediction = get_model_prediction(stock_ticker)
+        except Exception as e:
+            print(f"Error in model prediction: {str(e)}")
+            model_prediction = "Unable to generate prediction at this time"
+        
+        # Format news sources for the response
+        formatted_sources = {}
+        if isinstance(news_results, pd.DataFrame) and not news_results.empty:
+            for source, summary in news_analyzer.source_summaries.items():
+                if summary['Articles'] > 0:
+                    formatted_sources[source] = {
+                        'Articles': summary['Articles'],
+                        'Avg_Sentiment': summary['Avg_Sentiment'],
+                        'Decision': summary['Decision']
+                    }
+        
+        # Format Reddit subreddits for the response
+        formatted_subreddits = {}
+        if isinstance(reddit_results, pd.DataFrame) and not reddit_results.empty and hasattr(reddit_analyzer, 'subreddit_summaries'):
+            for subreddit, summary in reddit_analyzer.subreddit_summaries.items():
+                if summary['Posts'] > 0:
+                    formatted_subreddits[subreddit] = {
+                        'Posts': summary['Posts'],
+                        'Avg_Sentiment': summary['Avg_Sentiment'],
+                        'Decision': summary['Decision']
+                    }
+        
+        # Prepare response data
+        response_data = {
+            'stock_ticker': stock_ticker,
+            'timestamp': datetime.now().isoformat(),
+            'news_summary': {
+                'recommendation': news_recommendation,
+                'sources': formatted_sources
+            } if formatted_sources else "Insufficient data",
+            'reddit_summary': {
+                'recommendation': reddit_recommendation,
+                'subreddits': formatted_subreddits
+            } if formatted_subreddits else "Insufficient data",
+            'model_prediction': model_prediction
+        }
+        
+        # Print the response data for debugging
+        print("Response data:", json.dumps(response_data, indent=2))
+        
+        # Store analysis data
+        analysis_file = os.path.join(ANALYSIS_DATA_DIR, f'{stock_ticker}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
+        with open(analysis_file, 'w') as f:
+            json.dump(response_data, f, indent=2)
+        
+        return jsonify(response_data)
+        
+    except Exception as e:
+        print(f"Error in api_analyze: {str(e)}")
+        return jsonify({
+            'error': 'An error occurred while analyzing the stock',
+            'details': str(e)
+        }), 500
 
 @app.route('/api/analysis/<ticker>', methods=['GET'])
 def get_analysis_history(ticker):

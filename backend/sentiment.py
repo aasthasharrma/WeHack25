@@ -4,15 +4,12 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import os
-
 class RedditStockTrader:
     def __init__(self, stock_ticker):
         # Reddit API credentials
-        
-        self.client_id = os.getenv('CLIENT_ID', 'JRSdzEF-EwY3lial42o0ig')
-        
-        self.client_secret = os.getenv('CLIENT_SECRET', 'AQLZ6zdXvLD5rPs_0xMiB6vlhytuqQ')
-        self.user_agent = os.getenv('USER_AGENT', 'test')
+        self.client_id = '5_F9LLP27v6oeA9Bp9Eolg'
+        self.client_secret = 'ju7U0I44aC0vU-LMdkFOrQRhbi45Gw'
+        self.user_agent = 'new'
         
         # Initialize Reddit instance
         self.reddit = praw.Reddit(
@@ -64,140 +61,170 @@ class RedditStockTrader:
 
     def analyze_subreddit(self, subreddit_name, time_filter='week', limit=100):
         """Analyze posts from a specific subreddit"""
-        try:
-            subreddit = self.reddit.subreddit(subreddit_name)
-            posts = subreddit.search(f"{self.stock_ticker}", time_filter=time_filter, limit=limit)
+        print(f"Analyzing r/{subreddit_name} for {self.stock_ticker}...")
+        
+        subreddit = self.reddit.subreddit(subreddit_name)
+        posts = subreddit.search(self.stock_ticker, sort='new', time_filter=time_filter, limit=limit)
+        
+        results = []
+        buy_count = 0
+        sell_count = 0
+        hold_count = 0
+        total_sentiment = 0
+        post_count = 0
+        
+        # Iterate through fetched posts and analyze sentiment
+        for post in posts:
+            post_count += 1
+            title_sentiment = self.analyze_sentiment(post.title)
+            body_sentiment = self.analyze_sentiment(post.selftext)
             
-            results = []
-            total_sentiment = 0
-            post_count = 0
+            # Average sentiment of title and body (with more weight on title)
+            avg_sentiment = (title_sentiment * 1.5 + body_sentiment) / 2.5 if post.selftext else title_sentiment
+            total_sentiment += avg_sentiment
             
-            for post in posts:
-                # Skip posts that don't contain the ticker in the title
-                if self.stock_ticker.lower() not in post.title.lower():
-                    continue
-                
-                # Analyze title sentiment
-                title_sentiment = self.analyze_sentiment(post.title)
-                
-                # Analyze comment sentiment
-                comment_sentiment = 0
-                comment_count = 0
-                
-                post.comments.replace_more(limit=0)  # Flatten comment tree
-                for comment in post.comments.list():
-                    comment_sentiment += self.analyze_sentiment(comment.body)
-                    comment_count += 1
-                
-                # Calculate average comment sentiment
-                avg_comment_sentiment = comment_sentiment / comment_count if comment_count > 0 else 0
-                
-                # Calculate overall post sentiment (weighted average)
-                post_sentiment = (title_sentiment * 0.7) + (avg_comment_sentiment * 0.3)
-                
-                # Make trading decision
-                decision = self.make_trading_decision(post_sentiment)
-                
-                # Store results
-                results.append({
-                    'subreddit': subreddit_name,
-                    'title': post.title,
-                    'url': post.url,
-                    'score': post.score,
-                    'title_sentiment': title_sentiment,
-                    'comment_sentiment': avg_comment_sentiment,
-                    'overall_sentiment': post_sentiment,
-                    'decision': decision,
-                    'created_utc': datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d %H:%M:%S')
-                })
-                
-                total_sentiment += post_sentiment
-                post_count += 1
-            
-            # Calculate average sentiment for the subreddit
-            avg_sentiment = total_sentiment / post_count if post_count > 0 else 0
-            
-            # Make overall decision for the subreddit
             decision = self.make_trading_decision(avg_sentiment)
             
-            # Count decisions
-            buy_count = sum(1 for r in results if r['decision'] == 'BUY')
-            sell_count = sum(1 for r in results if r['decision'] == 'SELL')
-            hold_count = sum(1 for r in results if r['decision'] == 'HOLD')
+            if decision == 'BUY':
+                buy_count += 1
+            elif decision == 'SELL':
+                sell_count += 1
+            else:
+                hold_count += 1
+                
+            results.append({
+                'Subreddit': subreddit_name,
+                'Title': post.title,
+                'Created': datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d %H:%M'),
+                'Upvotes': post.score,
+                'Comments': post.num_comments,
+                'Sentiment': round(avg_sentiment, 3),
+                'Decision': decision
+            })
+        
+        # Store summary for this subreddit
+        if post_count > 0:
+            avg_subreddit_sentiment = total_sentiment / post_count
+            overall_decision = self.make_trading_decision(avg_subreddit_sentiment)
             
-            # Store subreddit summary
             self.subreddit_summaries[subreddit_name] = {
-                'Decision': decision,
-                'Avg_Sentiment': round(avg_sentiment, 3),
                 'Posts': post_count,
                 'Buy': buy_count,
                 'Sell': sell_count,
-                'Hold': hold_count
+                'Hold': hold_count,
+                'Avg_Sentiment': round(avg_subreddit_sentiment, 3),
+                'Decision': overall_decision
             }
             
-            return pd.DataFrame(results)
-        except Exception as e:
-            print(f"Error analyzing subreddit {subreddit_name}: {e}")
-            return pd.DataFrame()
+            # Add results to all_results
+            self.all_results.extend(results)
+            
+            return results
+        else:
+            print(f"No posts found for {self.stock_ticker} in r/{subreddit_name}")
+            return []
 
     def run_analysis(self):
-        """Run analysis on all subreddits"""
-        all_results = []
-        
-        for subreddit in self.subreddits:
-            results = self.analyze_subreddit(subreddit)
-            if not results.empty:
-                all_results.append(results)
-        
-        if not all_results:
-            return pd.DataFrame(), "Insufficient data"
-        
-        # Combine all results
-        combined_results = pd.concat(all_results, ignore_index=True)
-        
-        # Calculate overall sentiment
-        overall_sentiment = combined_results['overall_sentiment'].mean()
-        
-        # Make overall decision
-        overall_decision = self.make_trading_decision(overall_sentiment)
-        
-        # Count overall decisions
-        total_buy = sum(1 for r in combined_results['decision'] if r == 'BUY')
-        total_sell = sum(1 for r in combined_results['decision'] if r == 'SELL')
-        total_hold = sum(1 for r in combined_results['decision'] if r == 'HOLD')
-        
-        # Create visualization
-        self.create_visualization(total_buy, total_sell, total_hold)
-        
-        # Format the recommendation output
-        formatted_recommendation = f"Recommendation: {overall_decision}\nSubreddit Breakdown:"
-        
-        for subreddit, summary in self.subreddit_summaries.items():
-            formatted_recommendation += f"\nr/{subreddit}: {summary['Posts']} posts, Sentiment: {summary['Avg_Sentiment']:.3f}, Decision: {summary['Decision']}"
-        
-        return combined_results, formatted_recommendation
-
-    def create_visualization(self, total_buy, total_sell, total_hold):
-        """Create visualization of sentiment analysis results"""
+        """Run analysis across all subreddits"""
         try:
-            # Create directory for results if it doesn't exist
-            os.makedirs('frontend/static/results', exist_ok=True)
+            total_buy = 0
+            total_sell = 0
+            total_hold = 0
+            total_posts = 0
             
-            # Create pie chart
-            plt.figure(figsize=(10, 6))
-            plt.pie([total_buy, total_sell, total_hold], 
-                   labels=['BUY', 'SELL', 'HOLD'],
-                   colors=['green', 'red', 'gray'],
-                   autopct='%1.1f%%',
-                   startangle=90)
-            plt.title(f'Sentiment Analysis for {self.stock_ticker}')
+            # Analyze each subreddit
+            for subreddit in self.subreddits:
+                try:
+                    self.analyze_subreddit(subreddit)
+                except Exception as e:
+                    print(f"Error analyzing subreddit {subreddit}: {str(e)}")
+                    continue
             
-            # Save the figure
-            plt.savefig(f'frontend/static/results/{self.stock_ticker}_analysis.png')
-            plt.close()
+            # Create DataFrame from all results
+            if self.all_results:
+                results_df = pd.DataFrame(self.all_results)
+                
+                # Calculate totals
+                for subreddit, summary in self.subreddit_summaries.items():
+                    total_buy += summary['Buy']
+                    total_sell += summary['Sell'] 
+                    total_hold += summary['Hold']
+                    total_posts += summary['Posts']
+                
+                # Calculate overall sentiment
+                overall_sentiment = sum(s['Avg_Sentiment'] * s['Posts'] for s in self.subreddit_summaries.values()) / total_posts if total_posts > 0 else 0
+                
+                # Make final decision
+                if total_buy > total_sell:
+                    final_decision = 'BUY'
+                elif total_sell > total_buy:
+                    final_decision = 'SELL'
+                else:
+                    final_decision = 'HOLD'
+                
+                # Print results
+                print("\n====== RESULTS SUMMARY ======")
+                print(f"Stock: {self.stock_ticker}")
+                print(f"Total posts analyzed: {total_posts}")
+                print("\nSubreddit Breakdown:")
+                for subreddit, summary in self.subreddit_summaries.items():
+                    print(f"  r/{subreddit}: {summary['Posts']} posts, Sentiment: {summary['Avg_Sentiment']}, Decision: {summary['Decision']}")
+                
+                print(f"\nOverall Sentiment: {round(overall_sentiment, 3)}")
+                print(f"Buy signals: {total_buy}")
+                print(f"Sell signals: {total_sell}")
+                print(f"Hold signals: {total_hold}")
+                print(f"\nOVERALL RECOMMENDATION: {final_decision}")
+                
+                # Optional: Create visualization
+                try:
+                    self.create_visualization(total_buy, total_sell, total_hold)
+                except Exception as e:
+                    print(f"Error creating visualization: {str(e)}")
+                
+                return results_df, final_decision
+            else:
+                print(f"No data found for {self.stock_ticker} across any subreddits")
+                return pd.DataFrame(), 'INSUFFICIENT DATA'
         except Exception as e:
-            print(f"Error creating visualization: {e}")
+            print(f"Error in run_analysis: {str(e)}")
+            return pd.DataFrame(), f"Error analyzing Reddit data: {str(e)}"
+    
+    def create_visualization(self, total_buy, total_sell, total_hold):
+        """Create visualization of sentiment across subreddits"""
+        if not self.subreddit_summaries:
+            return
+            
+        # Prepare data for plotting
+        subreddits = list(self.subreddit_summaries.keys())
+        sentiments = [summary['Avg_Sentiment'] for summary in self.subreddit_summaries.values()]
+        post_counts = [summary['Posts'] for summary in self.subreddit_summaries.values()]
+        
+        # Create figure with two subplots
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+        
+        # Plot average sentiment by subreddit
+        colors = ['green' if s > 0 else 'red' for s in sentiments]
+        ax1.bar(subreddits, sentiments, color=colors)
+        ax1.set_title(f'Sentiment Analysis for {self.stock_ticker}')
+        ax1.set_xlabel('Subreddit')
+        ax1.set_ylabel('Average Sentiment')
+        plt.setp(ax1.xaxis.get_majorticklabels(), rotation=45)
+        
+        # Plot signal distribution - fixed the pie chart error
+        if total_buy + total_sell + total_hold > 0:  # Ensure we have data
+            signal_counts = [total_buy, total_sell, total_hold]
+            labels = ['Buy', 'Sell', 'Hold']
+            colors = ['green', 'red', 'gray']
+            
+            ax2.pie(signal_counts, labels=labels, colors=colors, autopct='%1.1f%%')
+            ax2.set_title('Trading Signal Distribution')
+        
+        plt.tight_layout()
+        plt.savefig(os.path.join('/Users/purva/Desktop/test/static/results', f"{self.stock_ticker}_analysis.png"))
 
+        
+        plt.show()
 
 # Main execution
 if __name__ == "__main__":
@@ -209,4 +236,3 @@ if __name__ == "__main__":
     if not results.empty:
         results.to_csv(f"{stock_ticker}_reddit_analysis.csv", index=False)
         print(f"\nResults saved to {stock_ticker}_reddit_analysis.csv")
-

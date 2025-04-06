@@ -1,0 +1,32 @@
+{
+  "stock_ticker": "PSA",
+  "timestamp": "2025-04-06T10:12:31.515420",
+  "news_summary": "Insufficient data",
+  "reddit_summary": {
+    "recommendation": "BUY",
+    "subreddits": {
+      "wallstreetbets": {
+        "Posts": 1,
+        "Avg_Sentiment": 0.319,
+        "Decision": "BUY"
+      },
+      "stockmarket": {
+        "Posts": 3,
+        "Avg_Sentiment": -0.024,
+        "Decision": "HOLD"
+      },
+      "options": {
+        "Posts": 1,
+        "Avg_Sentiment": 0.387,
+        "Decision": "BUY"
+      }
+    }
+  },
+  "model_prediction": {
+    "message": "The model predicts PSA to go FLAT with 99.68% confidence",
+    "date": "2025-03-31",
+    "direction": "FLAT",
+    "confidence": 0.3823982,
+    "confidence_percentile": 99.67532467532467
+  }
+}
