@@ -1,0 +1,58 @@
+body{
+    background-color: gray;
+    
+
+}
+
+/* quiz-styles.css - Specific styles for the quiz page */
+.quiz-container {
+    width: 80%;
+    max-width: 600px;
+    background-color: black; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    margin: 20px auto;
+}
+
+.quiz-description {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.quiz-button {
+    display: block; /* Ensures buttons are stacked vertically */
+    width: 100%; /* Each button takes the full width of its container */
+    padding: 12px 20px;
+    margin-bottom: 10px; /* Space between buttons */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quiz-button:hover {
+    background-color: #367C39; /* Darker green on hover */
+}
+
+.quiz-outcome p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #d35400; /* Text color for the outcome */
+}
+h1, h2{
+    color: wheat;
+}
+
+@media (max-width: 600px) {
+    .quiz-container {
+        width: 95%; /* Slightly more width for smaller screens */
+    }
+    .quiz-button {
+        padding: 12px 10px; /* Smaller padding on smaller screens */
+    }
+}
